@@ -1,2 +1,2 @@
-# jivecampaign
-Backend for all Jive election campaigns
+# Jive Campaign
+Backend for all Jive election campaigns.
