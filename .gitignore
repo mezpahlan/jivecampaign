@@ -10,3 +10,12 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# Eclipse ignores
+.settings/
+.classpath
+.project
+
+# Secret keys you need to customise
+twitter4j.properties
+/target/
