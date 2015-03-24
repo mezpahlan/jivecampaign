@@ -1,6 +1,6 @@
 package co.uk.jiveelection.campaign.twit;
 
-public class EntitiesModel {
+public class EntitiesModel implements Comparable<EntitiesModel>{
 	private int start;
 	private int end;
 	private String text;
@@ -29,6 +29,18 @@ public class EntitiesModel {
 	}
 	public void setText(String text) {
 		this.text = text;
+	}
+	
+	public EntitiesModel(int start, int end, String text, String type) {
+		this.start = start;
+		this.end = end;
+		this.text = text;
+		this.type = type;
+	}
+	
+	@Override
+	public int compareTo(EntitiesModel o) {
+		return this.getStart() - o.getStart();
 	}
 
 }

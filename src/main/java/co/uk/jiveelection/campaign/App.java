@@ -16,6 +16,7 @@ public class App {
 	}
 	
 	public static void main(String[] args) {
+		TwitHelper twitter = new TwitHelper("twitter");
 		TwitHelper davidCameron = new TwitHelper("David_Cameron");
 		TwitHelper edMiliband = new TwitHelper("Ed_Miliband");
 		TwitHelper nickClegg = new TwitHelper("nick_clegg");
