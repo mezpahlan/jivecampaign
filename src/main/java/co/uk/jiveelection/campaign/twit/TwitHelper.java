@@ -17,7 +17,7 @@ public class TwitHelper {
 	public static Twitter twitter = new TwitterFactory().getInstance();
 	private Status status;
 	public String statusText;
-	private List<EntitiesModel> entities;
+	public List<EntitiesModel> entities;
 
 	public TwitHelper(String userName) {
 		// Get latest tweet from named user
