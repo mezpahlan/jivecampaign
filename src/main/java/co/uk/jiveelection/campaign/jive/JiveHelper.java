@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -15,10 +16,12 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 
+import co.uk.jiveelection.campaign.twit.TwitHelper;
+
 public class JiveHelper {
 	private static final String JIVE_ENDPOINT = "http://www.cs.utexas.edu/users/jbc/bork/bork.cgi";
 
-	public static String translateToJive(String textToJive) {
+	private static String jiveRequest(String textToJive) {
 		String jive = "";
 
 		try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
@@ -35,7 +38,7 @@ public class JiveHelper {
 			CloseableHttpResponse response = httpclient.execute(httpPost);
 			HttpEntity entity = response.getEntity();
 			BufferedReader rd = new BufferedReader(new InputStreamReader(entity.getContent()));
-			
+
 			// While we can read lines from the buffered reader
 			String line;
 			while ((line = rd.readLine()) != null) {
@@ -47,6 +50,28 @@ public class JiveHelper {
 			e.printStackTrace();
 		}
 
+		return StringEscapeUtils.unescapeHtml4(jive);
+	}
+
+	public static String translateToJive(TwitHelper input) {
+		int postition = 0;
+		String jive = "";
+
+		// Do we have entities? If not translate the input. If so substring and translate.
+		if (!(input.entities.size() > 0)) {
+			jive = JiveHelper.jiveRequest(input.statusText);
+		} else {
+			for (int i = 0; i < input.entities.size(); i++) {
+				String sub = input.statusText.substring(postition, input.entities.get(i).getStart());
+				jive += JiveHelper.jiveRequest(sub)
+						+ " "
+						+ input.statusText.substring(input.entities.get(i).getStart(),
+								input.entities.get(i).getEnd()) + " ";
+				postition = input.entities.get(i).getEnd();
+			}
+		}
+
 		return jive;
+
 	}
 }
