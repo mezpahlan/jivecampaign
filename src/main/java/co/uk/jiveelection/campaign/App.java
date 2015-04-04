@@ -1,6 +1,5 @@
 package co.uk.jiveelection.campaign;
 
-import twitter4j.Status;
 import co.uk.jiveelection.campaign.jive.JiveHelper;
 import co.uk.jiveelection.campaign.twit.TwitHelper;
 
@@ -20,6 +19,5 @@ public class App {
 		System.out.println(JiveHelper.translateToJive(davidCameron));
 		System.out.println(JiveHelper.translateToJive(edMiliband));
 		System.out.println(JiveHelper.translateToJive(nickClegg));
-
 	}
 }

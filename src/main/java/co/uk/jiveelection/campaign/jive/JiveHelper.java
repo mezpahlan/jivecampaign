@@ -16,13 +16,14 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 
+import co.uk.jiveelection.campaign.twit.EntitiesModel;
 import co.uk.jiveelection.campaign.twit.TwitHelper;
 
 public class JiveHelper {
 	private static final String JIVE_ENDPOINT = "http://www.cs.utexas.edu/users/jbc/bork/bork.cgi";
 
 	private static String jiveRequest(String textToJive) {
-		String jive = "";
+		String jiveResponse = "";
 
 		try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
 
@@ -42,7 +43,7 @@ public class JiveHelper {
 			// While we can read lines from the buffered reader
 			String line;
 			while ((line = rd.readLine()) != null) {
-				jive += line;
+				jiveResponse += line;
 			}
 
 		} catch (IOException e) {
@@ -50,25 +51,43 @@ public class JiveHelper {
 			e.printStackTrace();
 		}
 
-		return StringEscapeUtils.unescapeHtml4(jive);
+		return StringEscapeUtils.unescapeHtml4(jiveResponse);
 	}
 
 	public static String translateToJive(TwitHelper input) {
-		int postition = 0;
+		int position = 0;
+		int entitySize = input.entities.size();
+		List<EntitiesModel> entities = input.entities;
+		String inputText = input.statusText;
+		String sub;
 		String jive = "";
+		
 
 		// Do we have entities? If not translate the input. If so substring and translate.
-		if (!(input.entities.size() > 0)) {
-			jive = JiveHelper.jiveRequest(input.statusText);
+		if (!(entitySize > 0)) {
+			jive = JiveHelper.jiveRequest(inputText);
 		} else {
-			for (int i = 0; i < input.entities.size(); i++) {
-				String sub = input.statusText.substring(postition, input.entities.get(i).getStart());
-				jive += JiveHelper.jiveRequest(sub)
-						+ " "
-						+ input.statusText.substring(input.entities.get(i).getStart(),
-								input.entities.get(i).getEnd()) + " ";
-				postition = input.entities.get(i).getEnd();
+			for (int i = 0; i < entitySize; i++) {
+				EntitiesModel entity = entities.get(i);
+				sub = inputText.substring(position, entity.getStart());
+				if (sub.length() > 0) {
+					jive += JiveHelper.jiveRequest(sub)
+							+ " "
+							+ inputText.substring(entities.get(i).getStart(), entities.get(i)
+									.getEnd()) + " ";
+				} else {
+					jive += inputText.substring(entities.get(i).getStart(), entities.get(i)
+							.getEnd())
+							+ " ";
+				}
+
+				position = entities.get(i).getEnd() + 1;
 			}
+			// Here we have no more entities but could still have text to jivelate
+			if (position < inputText.length()) {
+				sub = inputText.substring(position);
+				jive += JiveHelper.jiveRequest(sub);
+			}			
 		}
 
 		return jive;

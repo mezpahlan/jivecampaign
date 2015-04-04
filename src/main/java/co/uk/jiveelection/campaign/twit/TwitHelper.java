@@ -4,14 +4,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import twitter4j.FilterQuery;
 import twitter4j.HashtagEntity;
 import twitter4j.MediaEntity;
+import twitter4j.StallWarning;
 import twitter4j.Status;
+import twitter4j.StatusDeletionNotice;
+import twitter4j.StatusListener;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
+import twitter4j.TwitterStream;
+import twitter4j.TwitterStreamFactory;
 import twitter4j.URLEntity;
 import twitter4j.UserMentionEntity;
+import co.uk.jiveelection.campaign.jive.JiveHelper;
 
 public class TwitHelper {
 	public static Twitter twitter = new TwitterFactory().getInstance();
