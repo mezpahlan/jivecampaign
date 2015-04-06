@@ -1,24 +1,21 @@
 package co.uk.jiveelection.campaign.twit;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 
-import twitter4j.FilterQuery;
 import twitter4j.HashtagEntity;
 import twitter4j.MediaEntity;
-import twitter4j.StallWarning;
 import twitter4j.Status;
-import twitter4j.StatusDeletionNotice;
-import twitter4j.StatusListener;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
-import twitter4j.TwitterStream;
-import twitter4j.TwitterStreamFactory;
 import twitter4j.URLEntity;
 import twitter4j.UserMentionEntity;
-import co.uk.jiveelection.campaign.jive.JiveHelper;
+import twitter4j.auth.AccessToken;
 
 public class TwitHelper {
 	public static Twitter twitter = new TwitterFactory().getInstance();
@@ -27,6 +24,12 @@ public class TwitHelper {
 	public List<EntitiesModel> entities;
 
 	public TwitHelper(String userName) {
+		// Get the Access token from the properties file
+		AccessToken accessToken = loadAccessToken("davidjiveron");
+
+		// Load access token into configuration
+		twitter.setOAuthAccessToken(accessToken);
+
 		// Get latest tweet from named user
 		try {
 			status = twitter.getUserTimeline(userName).get(0);
@@ -37,7 +40,7 @@ public class TwitHelper {
 
 		// Extract status as text
 		statusText = status.getText();
-		
+
 		// Begin entity extract
 		entities = new ArrayList<EntitiesModel>();
 
@@ -72,6 +75,31 @@ public class TwitHelper {
 
 		// Order the List of Entities by start position
 		Collections.sort(entities);
+		
+		// Send the jive tweet out
 	}
 
+	private static AccessToken loadAccessToken(String jiveName){
+		// create and load default properties
+		Properties properties = new Properties();
+		try (FileInputStream in = new FileInputStream("twitter4j.properties")) {
+			properties.load(in);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	 	String token = properties.getProperty("davidjiveron" + ".accessToken");
+	    String tokenSecret = properties.getProperty("davidjiveron" + ".accessTokenSecret");
+	    return new AccessToken(token, tokenSecret);
+	}
+	
+	public static void tweetJive(String jive) {
+		try {
+			Status status = twitter.updateStatus(jive);
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
