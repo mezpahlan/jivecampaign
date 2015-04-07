@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
+import co.uk.jiveelection.campaign.jive.JiveHelper;
 import twitter4j.HashtagEntity;
 import twitter4j.MediaEntity;
 import twitter4j.Status;
@@ -46,15 +47,13 @@ public class TwitHelper {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		// Extract the last tweeted date time
 		this.lastTweeted = status.getCreatedAt();
-		
+
 		if (isNewTweet()) {
 			// Extract status as text
 			this.statusText = status.getText();
-
-			
 
 			// Begin entity extract
 			this.entities = new ArrayList<EntitiesModel>();
@@ -62,8 +61,8 @@ public class TwitHelper {
 			// Get URL Entities
 			for (int i = 0; i < status.getURLEntities().length; i++) {
 				URLEntity urlEntities = status.getURLEntities()[i];
-				entities.add(new EntitiesModel(urlEntities.getStart(), urlEntities.getEnd(), urlEntities
-						.getText(), urlEntities.getClass().getName()));
+				entities.add(new EntitiesModel(urlEntities.getStart(), urlEntities.getEnd(),
+						urlEntities.getText(), urlEntities.getClass().getName()));
 			}
 
 			// Get Media Entities
@@ -90,8 +89,11 @@ public class TwitHelper {
 
 			// Order the List of Entities by start position
 			Collections.sort(entities);
+
+			// Translate the tweet to jive and tweet, xzibit style
+			tweetJive(JiveHelper.translateToJive(statusText, entities));
 		}
-		
+
 	}
 
 	/**
@@ -122,6 +124,7 @@ public class TwitHelper {
 	private void loadProperties() {
 		// Create and load default properties
 		this.properties = new Properties();
+		// TODO: Make the stream a final constant
 		try (FileInputStream in = new FileInputStream(jiveUserName + ".properties")) {
 			this.properties.load(in);
 		} catch (IOException e) {
@@ -135,7 +138,8 @@ public class TwitHelper {
 	 */
 	private void saveProperties() {
 		if (null != properties) {
-			try (FileOutputStream out = new FileOutputStream("twitter4jbackup.properties")) {
+			// TODO: Make the stream a final constant
+			try (FileOutputStream out = new FileOutputStream(jiveUserName + ".properties")) {
 				properties.store(out, jiveUserName + " properties");
 				// TODO: Do we need to flush or does the store method also do this?
 				// out.flush();
@@ -158,12 +162,13 @@ public class TwitHelper {
 
 	/**
 	 * Checks if the current tweet was sent after the last tweet that we processed.
+	 * 
 	 * @return True is newer, false if older
 	 * @throws ParseException
 	 */
 	private boolean isNewTweet() {
-		
-		String lastTweet = properties.getProperty(jiveUserName + ".lastTweet", "Tue Apr 07 00:00:00 BST 2015");
+		// TODO: Make the property a final constant
+		String lastTweet = properties.getProperty("lastTweeted", "Tue Apr 07 00:00:00 BST 2015");
 		DateFormat format = new SimpleDateFormat("EEE MMM dd hh:mm:ss zzz yyyy");
 		Date date = null;
 		try {
@@ -179,18 +184,21 @@ public class TwitHelper {
 	public void tweetJive(String jive) {
 		try {
 			Status status = twitter.updateStatus(jive);
+			updateLastTweetProperty();
+			saveProperties();
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Updates the last tweeted date in the properties object
 	 */
 	private void updateLastTweetProperty() {
 		if (null != properties) {
-			properties.put(jiveUserName + ".lastTweet", status.getCreatedAt().toString());
+			// TODO: Make the property a final constant
+			properties.put("lastTweeted", lastTweeted.toString());
 		} else {
 			// Log this properly
 			System.out.println("Properties not loaded");

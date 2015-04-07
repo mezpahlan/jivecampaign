@@ -54,11 +54,9 @@ public class JiveHelper {
 		return StringEscapeUtils.unescapeHtml4(jiveResponse);
 	}
 
-	public static String translateToJive(TwitHelper input) {
+	public static String translateToJive(String inputText, List<EntitiesModel> entities) {
 		int position = 0;
-		List<EntitiesModel> entities = input.getEntities();
-		int entitySize = entities.size();		
-		String inputText = input.statusText;
+		int entitySize = entities.size();
 		String sub;
 		String jive = "";
 		
