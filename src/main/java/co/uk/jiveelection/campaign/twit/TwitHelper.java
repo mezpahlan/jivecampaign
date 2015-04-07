@@ -124,6 +124,7 @@ public class TwitHelper {
 	private void loadProperties() {
 		// Create and load default properties
 		this.properties = new Properties();
+		
 		// TODO: Make the stream a final constant
 		try (FileInputStream in = new FileInputStream(jiveUserName + ".properties")) {
 			this.properties.load(in);
@@ -141,8 +142,6 @@ public class TwitHelper {
 			// TODO: Make the stream a final constant
 			try (FileOutputStream out = new FileOutputStream(jiveUserName + ".properties")) {
 				properties.store(out, jiveUserName + " properties");
-				// TODO: Do we need to flush or does the store method also do this?
-				// out.flush();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -169,6 +168,11 @@ public class TwitHelper {
 	private boolean isNewTweet() {
 		// TODO: Make the property a final constant
 		String lastTweet = properties.getProperty("lastTweeted", "Tue Apr 07 00:00:00 BST 2015");
+		if (!(lastTweet.length() > 0)) {
+			// Assume this is a blank string since we're confident this isn't null here
+			lastTweet = "Tue Apr 07 00:00:00 BST 2015";
+		}
+		
 		DateFormat format = new SimpleDateFormat("EEE MMM dd hh:mm:ss zzz yyyy");
 		Date date = null;
 		try {

@@ -17,8 +17,6 @@ public class App {
 		TwitHelper jivebotDavidCameron = new TwitHelper("David_Cameron", "davidjiveron");
 //		TwitHelper edMiliband = new TwitHelper("Ed_Miliband");
 //		TwitHelper nickClegg = new TwitHelper("nick_clegg");
-
-
 	  }
 		
 }
