@@ -1,9 +1,14 @@
 package co.uk.jiveelection.campaign.twit;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -18,88 +23,177 @@ import twitter4j.UserMentionEntity;
 import twitter4j.auth.AccessToken;
 
 public class TwitHelper {
-	public static Twitter twitter = new TwitterFactory().getInstance();
-	private Status status;
 	public String statusText;
-	public List<EntitiesModel> entities;
+	private static Twitter twitter = new TwitterFactory().getInstance();
+	private Properties properties;
+	private Status status;
+	private Date lastTweeted;
+	private List<EntitiesModel> entities;
+	private String realUserName;
+	private String jiveUserName;
 
-	public TwitHelper(String userName) {
-		// Get the Access token from the properties file
-		AccessToken accessToken = loadAccessToken("davidjiveron");
+	public TwitHelper(String realUserName, String jiveUserName) {
+		this.realUserName = realUserName;
+		this.jiveUserName = jiveUserName;
 
-		// Load access token into configuration
-		twitter.setOAuthAccessToken(accessToken);
+		// Initialise the TwitHelper
+		init();
 
 		// Get latest tweet from named user
 		try {
-			status = twitter.getUserTimeline(userName).get(0);
+			status = twitter.getUserTimeline(realUserName).get(0);
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		// Extract status as text
-		statusText = status.getText();
-
-		// Begin entity extract
-		entities = new ArrayList<EntitiesModel>();
-
-		// Get URL Entities
-		for (int i = 0; i < status.getURLEntities().length; i++) {
-			URLEntity urlEntities = status.getURLEntities()[i];
-			entities.add(new EntitiesModel(urlEntities.getStart(), urlEntities.getEnd(), urlEntities
-					.getText(), urlEntities.getClass().getName()));
-		}
-
-		// Get Media Entities
-		for (int i = 0; i < status.getMediaEntities().length; i++) {
-			MediaEntity mediaEntities = status.getMediaEntities()[i];
-			entities.add(new EntitiesModel(mediaEntities.getStart(), mediaEntities.getEnd(),
-					mediaEntities.getText(), mediaEntities.getClass().getName()));
-		}
-
-		// Get UserMentionEntity if they exists
-		for (int i = 0; i < status.getUserMentionEntities().length; i++) {
-			UserMentionEntity userMentionEntities = status.getUserMentionEntities()[i];
-			entities.add(new EntitiesModel(userMentionEntities.getStart(), userMentionEntities
-					.getEnd(), userMentionEntities.getText(), userMentionEntities.getClass()
-					.getName()));
-		}
-
-		// Get HashtagEntity if they exists
-		for (int i = 0; i < status.getHashtagEntities().length; i++) {
-			HashtagEntity hashTagEntities = status.getHashtagEntities()[i];
-			entities.add(new EntitiesModel(hashTagEntities.getStart(), hashTagEntities.getEnd(),
-					hashTagEntities.getText(), hashTagEntities.getClass().getName()));
-		}
-
-		// Order the List of Entities by start position
-		Collections.sort(entities);
 		
-		// Send the jive tweet out
+		// Extract the last tweeted date time
+		this.lastTweeted = status.getCreatedAt();
+		
+		if (isNewTweet()) {
+			// Extract status as text
+			this.statusText = status.getText();
+
+			
+
+			// Begin entity extract
+			this.entities = new ArrayList<EntitiesModel>();
+
+			// Get URL Entities
+			for (int i = 0; i < status.getURLEntities().length; i++) {
+				URLEntity urlEntities = status.getURLEntities()[i];
+				entities.add(new EntitiesModel(urlEntities.getStart(), urlEntities.getEnd(), urlEntities
+						.getText(), urlEntities.getClass().getName()));
+			}
+
+			// Get Media Entities
+			for (int i = 0; i < status.getMediaEntities().length; i++) {
+				MediaEntity mediaEntities = status.getMediaEntities()[i];
+				entities.add(new EntitiesModel(mediaEntities.getStart(), mediaEntities.getEnd(),
+						mediaEntities.getText(), mediaEntities.getClass().getName()));
+			}
+
+			// Get UserMentionEntity if they exists
+			for (int i = 0; i < status.getUserMentionEntities().length; i++) {
+				UserMentionEntity userMentionEntities = status.getUserMentionEntities()[i];
+				entities.add(new EntitiesModel(userMentionEntities.getStart(), userMentionEntities
+						.getEnd(), userMentionEntities.getText(), userMentionEntities.getClass()
+						.getName()));
+			}
+
+			// Get HashtagEntity if they exists
+			for (int i = 0; i < status.getHashtagEntities().length; i++) {
+				HashtagEntity hashTagEntities = status.getHashtagEntities()[i];
+				entities.add(new EntitiesModel(hashTagEntities.getStart(), hashTagEntities.getEnd(),
+						hashTagEntities.getText(), hashTagEntities.getClass().getName()));
+			}
+
+			// Order the List of Entities by start position
+			Collections.sort(entities);
+		}
+		
 	}
 
-	private static AccessToken loadAccessToken(String jiveName){
-		// create and load default properties
-		Properties properties = new Properties();
-		try (FileInputStream in = new FileInputStream("twitter4j.properties")) {
-			properties.load(in);
+	/**
+	 * @return The entities
+	 */
+	public List<EntitiesModel> getEntities() {
+		return entities;
+	}
+
+	/**
+	 * Initialises the TwitHelper. Loads the authentication for the Jive Bot.
+	 */
+	private void init() {
+		// Load properties
+		loadProperties();
+
+		// Get the Access token from the properties file
+		AccessToken accessToken = loadAccessToken();
+
+		// Load access token into configuration
+		twitter.setOAuthAccessToken(accessToken);
+
+	}
+
+	/**
+	 * Loads the properties object associated with Jive Bot from a file
+	 */
+	private void loadProperties() {
+		// Create and load default properties
+		this.properties = new Properties();
+		try (FileInputStream in = new FileInputStream(jiveUserName + ".properties")) {
+			this.properties.load(in);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-	 	String token = properties.getProperty("davidjiveron" + ".accessToken");
-	    String tokenSecret = properties.getProperty("davidjiveron" + ".accessTokenSecret");
-	    return new AccessToken(token, tokenSecret);
 	}
-	
-	public static void tweetJive(String jive) {
+
+	/**
+	 * Saves the properties object associated with the Jive Bot to a file
+	 */
+	private void saveProperties() {
+		if (null != properties) {
+			try (FileOutputStream out = new FileOutputStream("twitter4jbackup.properties")) {
+				properties.store(out, jiveUserName + " properties");
+				// TODO: Do we need to flush or does the store method also do this?
+				// out.flush();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			System.out.println("Properties not loaded");
+		}
+
+	}
+
+	private AccessToken loadAccessToken() {
+		// TODO: Investigate StringBuilder
+		String token = properties.getProperty("accessToken");
+		String tokenSecret = properties.getProperty("accessTokenSecret");
+		return new AccessToken(token, tokenSecret);
+	}
+
+	/**
+	 * Checks if the current tweet was sent after the last tweet that we processed.
+	 * @return True is newer, false if older
+	 * @throws ParseException
+	 */
+	private boolean isNewTweet() {
+		
+		String lastTweet = properties.getProperty(jiveUserName + ".lastTweet", "Tue Apr 07 00:00:00 BST 2015");
+		DateFormat format = new SimpleDateFormat("EEE MMM dd hh:mm:ss zzz yyyy");
+		Date date = null;
+		try {
+			date = format.parse(lastTweet);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return status.getCreatedAt().after(date);
+	}
+
+	public void tweetJive(String jive) {
 		try {
 			Status status = twitter.updateStatus(jive);
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Updates the last tweeted date in the properties object
+	 */
+	private void updateLastTweetProperty() {
+		if (null != properties) {
+			properties.put(jiveUserName + ".lastTweet", status.getCreatedAt().toString());
+		} else {
+			// Log this properly
+			System.out.println("Properties not loaded");
 		}
 	}
 }

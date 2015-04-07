@@ -56,8 +56,8 @@ public class JiveHelper {
 
 	public static String translateToJive(TwitHelper input) {
 		int position = 0;
-		int entitySize = input.entities.size();
-		List<EntitiesModel> entities = input.entities;
+		List<EntitiesModel> entities = input.getEntities();
+		int entitySize = entities.size();		
 		String inputText = input.statusText;
 		String sub;
 		String jive = "";

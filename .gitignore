@@ -18,6 +18,7 @@ hs_err_pid*
 
 # Secret keys you need to customise
 twitter4j.properties
+*.properties.backup
 
 # Maven auto generated ignore
 /target/
