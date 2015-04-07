@@ -185,6 +185,10 @@ public class TwitHelper {
 		return status.getCreatedAt().after(date);
 	}
 
+	/**
+	 * Tweets the jive text via the authenticated jive bot
+	 * @param jive string to be tweeted
+	 */
 	public void tweetJive(String jive) {
 		try {
 			Status status = twitter.updateStatus(jive);
