@@ -31,9 +31,11 @@ public class TwitHelper {
 	private Date lastTweeted;
 	private List<EntitiesModel> entities;
 	private String jiveUserName;
+	private String realUserName;
 
 	public TwitHelper(String realUserName, String jiveUserName) {
 		this.jiveUserName = jiveUserName;
+		this.realUserName = realUserName;
 
 		// Initialise the TwitHelper
 		init();
@@ -167,7 +169,6 @@ public class TwitHelper {
 	 * Checks if the current tweet was sent after the last tweet that we processed.
 	 * 
 	 * @return True is newer, false if older
-	 * @throws ParseException
 	 */
 	private boolean isNewTweet() {
 		// TODO: Make the property a final constant
@@ -186,7 +187,15 @@ public class TwitHelper {
 			e.printStackTrace();
 		}
 
-		return status.getCreatedAt().after(date);
+		boolean result = status.getCreatedAt().after(date);
+
+		if (result) {
+			System.out.println("New tweet for " + realUserName);
+		} else {
+			System.out.println("Seen this tweet before from " + realUserName);
+		}
+
+		return result;
 	}
 
 	/**
