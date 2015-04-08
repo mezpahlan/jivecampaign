@@ -3,7 +3,6 @@ package co.uk.jiveelection.campaign;
 import java.io.IOException;
 
 import twitter4j.TwitterException;
-import co.uk.jiveelection.campaign.jive.JiveHelper;
 import co.uk.jiveelection.campaign.twit.TwitHelper;
 
 /**
