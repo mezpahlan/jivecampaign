@@ -15,8 +15,8 @@ public class App {
 	
 	public static void main(String[] args) throws TwitterException, IOException {
 		TwitHelper jivebotDavidCameron = new TwitHelper("David_Cameron", "davidjiveron");
-//		TwitHelper edMiliband = new TwitHelper("Ed_Miliband");
-//		TwitHelper nickClegg = new TwitHelper("nick_clegg");
+//		TwitHelper jivebotEdMiliband = new TwitHelper("Ed_Miliband", "edjiveaband");
+//		TwitHelper jivebotNickClegg = new TwitHelper("nick_clegg", "nickjiveegg");
 	  }
 		
 }
