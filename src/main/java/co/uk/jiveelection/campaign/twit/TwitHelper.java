@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
-import co.uk.jiveelection.campaign.jive.JiveHelper;
 import twitter4j.HashtagEntity;
 import twitter4j.MediaEntity;
 import twitter4j.Status;
@@ -22,6 +21,7 @@ import twitter4j.TwitterFactory;
 import twitter4j.URLEntity;
 import twitter4j.UserMentionEntity;
 import twitter4j.auth.AccessToken;
+import co.uk.jiveelection.campaign.jive.JiveHelper;
 
 public class TwitHelper {
 	public String statusText;
@@ -30,11 +30,9 @@ public class TwitHelper {
 	private Status status;
 	private Date lastTweeted;
 	private List<EntitiesModel> entities;
-	private String realUserName;
 	private String jiveUserName;
 
 	public TwitHelper(String realUserName, String jiveUserName) {
-		this.realUserName = realUserName;
 		this.jiveUserName = jiveUserName;
 
 		// Initialise the TwitHelper
@@ -124,7 +122,7 @@ public class TwitHelper {
 	private void loadProperties() {
 		// Create and load default properties
 		this.properties = new Properties();
-		
+
 		// TODO: Make the stream a final constant
 		try (FileInputStream in = new FileInputStream(jiveUserName + ".properties")) {
 			this.properties.load(in);
@@ -152,6 +150,12 @@ public class TwitHelper {
 
 	}
 
+	/**
+	 * Uses properties from the properties object to create a new Access Token allowing us to Tweet
+	 * on the jivebot's behalf.
+	 * 
+	 * @return A new Access Token
+	 */
 	private AccessToken loadAccessToken() {
 		// TODO: Investigate StringBuilder
 		String token = properties.getProperty("accessToken");
@@ -172,7 +176,7 @@ public class TwitHelper {
 			// Assume this is a blank string since we're confident this isn't null here
 			lastTweet = "Tue Apr 07 00:00:00 BST 2015";
 		}
-		
+
 		DateFormat format = new SimpleDateFormat("EEE MMM dd hh:mm:ss zzz yyyy");
 		Date date = null;
 		try {
@@ -187,7 +191,8 @@ public class TwitHelper {
 
 	/**
 	 * Tweets the jive text via the authenticated jive bot
-	 * @param jive string to be tweeted
+	 * 
+	 * @param jive The String to be tweeted
 	 */
 	public void tweetJive(String jive) {
 		try {
