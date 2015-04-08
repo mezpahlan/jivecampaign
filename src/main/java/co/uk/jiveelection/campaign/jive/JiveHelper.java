@@ -18,6 +18,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import co.uk.jiveelection.campaign.twit.EntitiesModel;
 import co.uk.jiveelection.campaign.twit.TwitHelper;
+import co.uk.jiveelection.campaign.utils.TextHelper;
 
 public class JiveHelper {
 	private static final String JIVE_ENDPOINT = "http://www.cs.utexas.edu/users/jbc/bork/bork.cgi";
@@ -88,17 +89,7 @@ public class JiveHelper {
 			}			
 		}
 
-		return twitterWorkarounds(jive);
+		return TextHelper.twitterWorkarounds(jive);
 
-	}
-	
-	/**
-	 * Workarounds for the 140 character limit in Twitter
-	 * @param input The Jived string that is potentially too long
-	 * @return output Hopefully a Twitter compliant string
-	 */
-	private static String twitterWorkarounds(String input) {
-		String output = input.replaceAll(", dig dis:", ":");
-		return output.trim();
 	}
 }
