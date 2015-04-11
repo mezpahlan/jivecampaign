@@ -25,18 +25,20 @@ import co.uk.jiveelection.campaign.jive.JiveHelper;
 
 public class TwitHelper {
 	public String statusText;
-	private static Twitter twitter = new TwitterFactory().getInstance();
+	private static Twitter twitter;
 	private Properties properties;
+	private Properties consumer;
 	private Status status;
 	private Date lastTweeted;
 	private List<EntitiesModel> entities;
 	private String jiveUserName;
 	private String realUserName;
+	private String propertyFile;
 
 	public TwitHelper(String realUserName, String jiveUserName) {
 		this.jiveUserName = jiveUserName;
 		this.realUserName = realUserName;
-
+		this.propertyFile = System.getenv().get("OPENSHIFT_DATA_DIR") + jiveUserName + ".properties";
 		// Initialise the TwitHelper
 		init();
 
@@ -107,6 +109,12 @@ public class TwitHelper {
 	 * Initialises the TwitHelper. Loads the authentication for the Jive Bot.
 	 */
 	private void init() {
+		// Attempt to load a static twitter that we use for all Twitter related tasks
+		loadConsumerConfig();
+		twitter = new TwitterFactory().getInstance();
+		twitter.setOAuthConsumer(consumer.getProperty("oauth.consumerKey"),
+				consumer.getProperty("oauth.consumerSecret"));
+
 		// Load properties
 		loadProperties();
 
@@ -118,6 +126,19 @@ public class TwitHelper {
 
 	}
 
+	private void loadConsumerConfig() {
+		// Creates consumer properties
+		this.consumer = new Properties();
+
+		try (FileInputStream in = new FileInputStream(System.getenv().get("OPENSHIFT_DATA_DIR")
+				+ "twitter4j.properties")) {
+			this.consumer.load(in);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * Loads the properties object associated with Jive Bot from a file
 	 */
@@ -126,7 +147,7 @@ public class TwitHelper {
 		this.properties = new Properties();
 
 		// TODO: Make the stream a final constant
-		try (FileInputStream in = new FileInputStream(jiveUserName + ".properties")) {
+		try (FileInputStream in = new FileInputStream(propertyFile)) {
 			this.properties.load(in);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -140,7 +161,7 @@ public class TwitHelper {
 	private void saveProperties() {
 		if (null != properties) {
 			// TODO: Make the stream a final constant
-			try (FileOutputStream out = new FileOutputStream(jiveUserName + ".properties")) {
+			try (FileOutputStream out = new FileOutputStream(propertyFile)) {
 				properties.store(out, jiveUserName + " properties");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -204,6 +225,7 @@ public class TwitHelper {
 	 * @param jive The String to be tweeted
 	 */
 	public void tweetJive(String jive) {
+		
 		try {
 			Status status = twitter.updateStatus(jive);
 			updateLastTweetProperty();
@@ -211,6 +233,7 @@ public class TwitHelper {
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println(jive);
 		}
 	}
 
