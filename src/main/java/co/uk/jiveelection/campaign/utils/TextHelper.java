@@ -35,7 +35,7 @@ public class TextHelper {
 			input = input.replaceAll("down", "up");
 		}
 		if (input.length() > 140) {
-			input = input.replaceAll("'S coo', bro.", "");
+			input = input.replaceAll(" 'S coo', bro.", "");
 		}
 		if (input.length() > 140) {
 			input = input.replaceAll("boogy", "danz");
