@@ -45,6 +45,15 @@ public class TextHelper {
 			input = input.replaceAll("\"", "");
 		}
 		if (input.length() > 140) {
+			input = input.replaceAll("powerful", "hench");
+		}
+		if (input.length() > 140) {
+			input = input.replaceAll("isn't", "ain't");
+		}
+		if (input.length() > 140) {
+			input = input.replaceAll("finances", "monies");
+		}
+		if (input.length() > 140) {
 			input = input.replaceAll("\\?", "");
 		}
 		if (input.length() > 140) {
