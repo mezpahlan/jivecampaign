@@ -35,6 +35,9 @@ public class TextHelper {
 			input = input.replaceAll(" Slap mah fro!", "");
 		}
 		if (input.length() > 140) {
+			input = input.replaceAll("some", "per");
+		}
+		if (input.length() > 140) {
 			input = input.replaceAll("down", "up");
 		}
 		if (input.length() > 140) {
