@@ -14,7 +14,10 @@ public class TextHelper {
 			input = input.replaceAll(", dig dis:", ":");
 		}
 		if (input.length() > 140) {
-			input = input.replaceAll("What it is, Mama!", "");
+			input = input.replaceAll("damn ", "");
+		}
+		if (input.length() > 140) {
+			input = input.replaceAll("What it is, Mama! ", "");
 		}
 		if (input.length() > 140) {
 			input = input.replaceAll("baaaad", "bad");
@@ -46,6 +49,9 @@ public class TextHelper {
 		}
 		if (input.length() > 140) {
 			input = input.replaceAll("powerful", "hench");
+		}
+		if (input.length() > 140) {
+			input = input.replaceAll("we're", "we");
 		}
 		if (input.length() > 140) {
 			input = input.replaceAll("isn't", "ain't");
