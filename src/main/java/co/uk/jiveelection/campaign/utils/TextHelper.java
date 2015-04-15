@@ -79,7 +79,7 @@ public class TextHelper {
 			input = input.replaceAll("^RT", "");
 		}
 		if (input.length() > 140) {
-			input = input.replaceAll(". @", ".@");
+			input = input.replaceAll("\\. @", ".@");
 		}
 
 		return input.trim();
