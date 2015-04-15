@@ -233,6 +233,7 @@ public class TwitHelper {
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println(status);
 			System.out.println(jive);
 		}
 	}
