@@ -46,6 +46,9 @@ public class TextHelper {
 		if (input.length() > 140) {
 			input = input.replaceAll("boogy", "danz");
 		}
+		if (input.length() > 140) {
+			input = input.replaceAll("\\bper\\b", "a");
+		}
 		// Remove grammar additions
 		if (input.length() > 140) {
 			input = input.replaceAll("\"", "");
@@ -74,6 +77,9 @@ public class TextHelper {
 		// Remove Twitter additions
 		if (input.length() > 140) {
 			input = input.replaceAll("^RT", "");
+		}
+		if (input.length() > 140) {
+			input = input.replaceAll(". @", ".@");
 		}
 
 		return input.trim();
