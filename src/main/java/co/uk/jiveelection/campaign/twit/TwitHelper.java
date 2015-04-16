@@ -92,8 +92,25 @@ public class TwitHelper {
 			// Order the List of Entities by start position
 			Collections.sort(entities);
 
-			// Translate the tweet to jive and tweet, xzibit style
-			tweetJive(JiveHelper.translateToJive(statusText, entities));
+			// Translate the tweet to jive
+			String jive = JiveHelper.translateToJive(statusText, entities);
+
+			// Tweet, xzibit style
+			// Check if jive is > 140 characters
+			// if yes break into smaller tweet with [1/2], [2,2] suffix
+			// if not tweet
+			if (jive.length() > 140) {
+				int i = jive.lastIndexOf(" ", 132);
+				
+				String first = jive.substring(0, i) + " [1/2]";
+				String second  = jive.substring(i + 1) + " [2/2]";
+				
+				tweetJive(first);
+				tweetJive(second);
+			} else {
+				tweetJive(jive);
+			}
+
 		}
 
 	}
@@ -225,7 +242,6 @@ public class TwitHelper {
 	 * @param jive The String to be tweeted
 	 */
 	public void tweetJive(String jive) {
-		
 		try {
 			Status status = twitter.updateStatus(jive);
 			updateLastTweetProperty();
