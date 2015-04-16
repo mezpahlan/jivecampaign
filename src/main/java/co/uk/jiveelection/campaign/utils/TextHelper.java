@@ -14,6 +14,9 @@ public class TextHelper {
 			input = input.replaceAll(", dig dis:", ":");
 		}
 		if (input.length() > 140) {
+			input = input.replaceAll("candun ", "candid");
+		}
+		if (input.length() > 140) {
 			input = input.replaceAll("damn ", "");
 		}
 		if (input.length() > 140) {
