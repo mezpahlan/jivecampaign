@@ -11,22 +11,10 @@ public class TextHelper {
 	public static String twitterWorkarounds(String input) {
 		// Remove jive additions
 		if (input.length() > 140) {
-			input = input.replaceAll(", dig dis:", ":");
-		}
-		if (input.length() > 140) {
 			input = input.replaceAll("candun ", "candid");
 		}
 		if (input.length() > 140) {
-			input = input.replaceAll("damn ", "");
-		}
-		if (input.length() > 140) {
 			input = input.replaceAll("What it is, Mama! ", "");
-		}
-		if (input.length() > 140) {
-			input = input.replaceAll("baaaad", "bad");
-		}
-		if (input.length() > 140) {
-			input = input.replaceAll("sheeit", "shit");
 		}
 		if (input.length() > 140) {
 			input = input.replaceAll("kindun didate", "candidate");
@@ -42,9 +30,6 @@ public class TextHelper {
 		}
 		if (input.length() > 140) {
 			input = input.replaceAll("down", "up");
-		}
-		if (input.length() > 140) {
-			input = input.replaceAll(" 'S coo', bro.", "");
 		}
 		if (input.length() > 140) {
 			input = input.replaceAll("boogy", "danz");
