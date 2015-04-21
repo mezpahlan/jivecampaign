@@ -3,12 +3,8 @@ package co.uk.jiveelection.campaign.twit;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -29,7 +25,7 @@ public class TwitHelper {
 	private Properties properties;
 	private Properties consumer;
 	private Status status;
-	private Date lastTweeted;
+	private long tweetId;
 	private List<EntitiesModel> entities;
 	private String jiveUserName;
 	private String realUserName;
@@ -50,8 +46,8 @@ public class TwitHelper {
 			e.printStackTrace();
 		}
 
-		// Extract the last tweeted date time
-		this.lastTweeted = status.getCreatedAt();
+		// Extract the current Tweet Id
+		this.tweetId = status.getId();
 
 		if (isNewTweet()) {
 			// Extract status as text
@@ -173,6 +169,45 @@ public class TwitHelper {
 	}
 
 	/**
+	 * Checks if the current tweet was sent after the last tweet that we processed.
+	 * 
+	 * @return True is newer, false if older
+	 */
+	private boolean isNewTweet() {
+		// TODO: Make the property a final constant?
+		String s = properties.getProperty("lastTweetId", "0");
+		if (!(s.length() > 0)) {
+			// Assume this is a blank string since we're confident this isn't null here
+			s = "0";
+		}
+		
+		long lastTweet = Long.valueOf(s).longValue();
+	
+		boolean result = ( status.getId() > lastTweet ) ? true : false;
+	
+		if (result) {
+			System.out.println("New tweet for " + realUserName + ". This tweet: " + String.valueOf(status.getId()) + " . Old tweet: " + String.valueOf(lastTweet));
+		} else {
+			System.out.println("Seen this tweet before from " + realUserName + ". This tweet: " + String.valueOf(status.getId()) + " . Old tweet: " + String.valueOf(lastTweet));
+		}
+	
+		return result;
+	}
+
+	/**
+	 * Updates the last Tweet Id in the properties object
+	 */
+	private void updateLastTweetProperty() {
+		if (null != properties) {
+			// TODO: Make the property a final constant
+			properties.setProperty("lastTweetId", String.valueOf(tweetId));
+		} else {
+			// Log this properly
+			System.out.println("Properties not loaded");
+		}
+	}
+
+	/**
 	 * Saves the properties object associated with the Jive Bot to a file
 	 */
 	private void saveProperties() {
@@ -204,39 +239,6 @@ public class TwitHelper {
 	}
 
 	/**
-	 * Checks if the current tweet was sent after the last tweet that we processed.
-	 * 
-	 * @return True is newer, false if older
-	 */
-	private boolean isNewTweet() {
-		// TODO: Make the property a final constant
-		String lastTweet = properties.getProperty("lastTweeted", "Tue Apr 07 00:00:00 BST 2015");
-		if (!(lastTweet.length() > 0)) {
-			// Assume this is a blank string since we're confident this isn't null here
-			lastTweet = "Tue Apr 07 00:00:00 BST 2015";
-		}
-
-		DateFormat format = new SimpleDateFormat("EEE MMM dd hh:mm:ss zzz yyyy");
-		Date date = null;
-		try {
-			date = format.parse(lastTweet);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		boolean result = status.getCreatedAt().after(date);
-
-		if (result) {
-			System.out.println("New tweet for " + realUserName);
-		} else {
-			System.out.println("Seen this tweet before from " + realUserName);
-		}
-
-		return result;
-	}
-
-	/**
 	 * Tweets the jive text via the authenticated jive bot
 	 * 
 	 * @param jive The String to be tweeted
@@ -251,19 +253,6 @@ public class TwitHelper {
 			e.printStackTrace();
 			System.out.println(status);
 			System.out.println(jive);
-		}
-	}
-
-	/**
-	 * Updates the last tweeted date in the properties object
-	 */
-	private void updateLastTweetProperty() {
-		if (null != properties) {
-			// TODO: Make the property a final constant
-			properties.put("lastTweeted", lastTweeted.toString());
-		} else {
-			// Log this properly
-			System.out.println("Properties not loaded");
 		}
 	}
 }
