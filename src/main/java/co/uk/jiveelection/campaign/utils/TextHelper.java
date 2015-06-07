@@ -9,21 +9,42 @@ public class TextHelper {
 	 * @return Hopefully a Twitter compliant String
 	 */
 	public static String twitterWorkarounds(String input) {
-		// Remove jive additions
+		// Removals		
+		if (input.length() > 140) {
+			input = input.replaceAll("^RT", "");
+		}
+		if (input.length() > 140) {
+			input = input.replaceAll("\"", "");
+		}
+		if (input.length() > 140) {
+			input = input.replaceAll("\\?", "");
+		}
+		if (input.length() > 140) {
+			input = input.replaceAll("What it is, Mama! ", "");
+		}
+		if (input.length() > 140) {
+			input = input.replaceAll(" Slap mah fro!", "");
+		}
+		
+		
+		// Replacements
 		if (input.length() > 140) {
 			input = input.replaceAll("candun ", "candid");
 		}
 		if (input.length() > 140) {
-			input = input.replaceAll("What it is, Mama! ", "");
+			input = input.replaceAll("children", "kidz");
+		}
+		if (input.length() > 140) {
+			input = input.replaceAll("child", "kid");
+		}
+		if (input.length() > 140) {
+			input = input.replaceAll("\\. @", ".@");
 		}
 		if (input.length() > 140) {
 			input = input.replaceAll("kindun didate", "candidate");
 		}
 		if (input.length() > 140) {
 			input = input.replaceAll("s snatch", "stake");
-		}
-		if (input.length() > 140) {
-			input = input.replaceAll(" Slap mah fro!", "");
 		}
 		if (input.length() > 140) {
 			input = input.replaceAll("some", "per");
@@ -37,10 +58,6 @@ public class TextHelper {
 		if (input.length() > 140) {
 			input = input.replaceAll("\\bper\\b", "a");
 		}
-		// Remove grammar additions
-		if (input.length() > 140) {
-			input = input.replaceAll("\"", "");
-		}
 		if (input.length() > 140) {
 			input = input.replaceAll("powerful", "hench");
 		}
@@ -52,22 +69,6 @@ public class TextHelper {
 		}
 		if (input.length() > 140) {
 			input = input.replaceAll("finances", "monies");
-		}
-		if (input.length() > 140) {
-			input = input.replaceAll("\\?", "");
-		}
-		if (input.length() > 140) {
-			input = input.replaceAll("children", "kidz");
-		}
-		if (input.length() > 140) {
-			input = input.replaceAll("child", "kid");
-		}
-		// Remove Twitter additions
-		if (input.length() > 140) {
-			input = input.replaceAll("^RT", "");
-		}
-		if (input.length() > 140) {
-			input = input.replaceAll("\\. @", ".@");
 		}
 
 		return input.trim();
