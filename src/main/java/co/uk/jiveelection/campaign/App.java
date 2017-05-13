@@ -2,6 +2,7 @@ package co.uk.jiveelection.campaign;
 
 import java.io.IOException;
 
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import twitter4j.TwitterException;
 import co.uk.jiveelection.campaign.twit.TwitHelper;
 
@@ -11,6 +12,7 @@ import co.uk.jiveelection.campaign.twit.TwitHelper;
  * jivebot.
  *
  */
+@SpringBootApplication
 public class App {
 
 	public static void main(String[] args) throws TwitterException, IOException,
