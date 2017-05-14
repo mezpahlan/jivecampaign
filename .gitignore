@@ -51,3 +51,10 @@ hs_err_pid*
 
 # Twit configuration
 /src/main/java/co/uk/jiveelection/campaign/TwitConfig.java
+
+### Gradle ###
+.gradle
+/build/
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
