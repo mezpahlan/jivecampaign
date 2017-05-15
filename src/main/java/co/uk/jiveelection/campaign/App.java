@@ -24,6 +24,7 @@ public class App {
         TwitHelper jivebotEdMiliband = new TwitHelper("Ed_Miliband", TwitConfig.ED_JIVEABAND_ACCESS_TOKEN, TwitConfig.ED_JIVEABAND_ACCESS_TOKEN_SECRET);
         TwitHelper jivebotNickClegg = new TwitHelper("nick_clegg", TwitConfig.NICK_JIVEGG_ACCESS_TOKEN, TwitConfig.NICK_JIVEGG_ACCESS_TOKEN_SECRET);
         TwitHelper jivebotTheresaMay = new TwitHelper("theresa_may", TwitConfig.JIVERESA_MAY_ACCESS_TOKEN, TwitConfig.JIVERESA_MAY_ACCESS_TOKEN_SECRET);
+        TwitHelper jivebotJeremyCorbyn = new TwitHelper("jeremycorbyn", TwitConfig.JEREMY_JIVEBYN_ACCESS_TOKEN, TwitConfig.JEREMY_JIVEBYN_ACCESS_TOKEN_SECRET);
     }
 
 }
