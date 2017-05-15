@@ -13,23 +13,12 @@ import java.util.List;
 public class TwitHelper {
     public String statusText;
     private Twitter twitter;
-    private Status status;
-    private long tweetId;
     private List<EntitiesModel> entities;
-    private String jiveUserName;
-    private String realUserName;
-    private String jivebotToken;
-    private String jivebotTokenSecret;
     private TwitterStream twitterStream;
 
-    public TwitHelper(String realUserName, String jiveUserName, String jivebotToken, String jivebotTokenSecret) throws TwitterException {
-        this.jiveUserName = jiveUserName;
-        this.realUserName = realUserName;
-        this.jivebotToken = jivebotToken;
-        this.jivebotTokenSecret = jivebotTokenSecret;
-
+    public TwitHelper(String realUserName, String jivebotToken, String jivebotTokenSecret) throws TwitterException {
         // Initialise the TwitHelper
-        init();
+        init(realUserName, jivebotToken, jivebotTokenSecret);
     }
 
     private void translateToJive(Status status) {
@@ -100,8 +89,11 @@ public class TwitHelper {
 
     /**
      * Initialises the TwitHelper. Loads the authentication for the Jive Bot.
+     *
+     * @param jivebotToken
+     * @param jivebotTokenSecret
      */
-    private void init() throws TwitterException {
+    private void init(String realUserName, String jivebotToken, String jivebotTokenSecret) throws TwitterException {
         Configuration configuration = new ConfigurationBuilder()
                 .setOAuthConsumerKey(TwitConfig.CONSUMER_TOKEN)
                 .setOAuthConsumerSecret(TwitConfig.CONSUMER_TOKEN_SECRET)
@@ -111,9 +103,10 @@ public class TwitHelper {
 
         twitter = new TwitterFactory(configuration).getInstance();
         twitterStream = new TwitterStreamFactory(configuration).getInstance();
+        long realId = twitter.showUser(realUserName).getId();
 
         FilterQuery tweetFilterQuery = new FilterQuery();
-        tweetFilterQuery.follow(twitter.showUser(realUserName).getId());
+        tweetFilterQuery.follow(realId);
 
         twitterStream.addListener(new StatusListener() {
             @Override
@@ -123,7 +116,9 @@ public class TwitHelper {
 
             @Override
             public void onStatus(Status status) {
-                translateToJive(status);
+                if (status.getUser().getId() == realId) {
+                    translateToJive(status);
+                }
             }
 
             @Override
@@ -160,7 +155,6 @@ public class TwitHelper {
         } catch (TwitterException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            System.out.println(status);
             System.out.println(jive);
         }
     }
