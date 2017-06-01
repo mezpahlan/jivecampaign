@@ -25,7 +25,7 @@ public class JiveMappings extends HashMap<String, String> {
         addAtomic("jive", "jibe");
         addAtomic("fool", "honkyfool");
         addAtomic("modem", "doodad");
-        addMapping("([eatd])\\b the", "$1 da damn");
+        addMapping("([adet])\\b the", "$1 da damn");
         addAtomic("man", "dude");
         addRightAtomic("woman", "mama");
         addAtomic("girl", "goat");
@@ -75,6 +75,19 @@ public class JiveMappings extends HashMap<String, String> {
         addAtomic("knew", "knowed");
         addAtomic("([Bb])ecause", "$1'cuz");
         addLeftAtomic("(?<!are )([Yy])our", "$1o'");
+        addMapping("four", "foe");
+        addAtomic("got(?! to)", "gots");
+        addAtomic("aren't", "ain't");
+        addMapping("young", "yung");
+        addAtomic("(?<!are )you", "ya'");
+        addAtomic("You", "You's");
+        addMapping("first", "fust");
+        addAtomic("police", "honky pigs");
+        addAtomic("string", "chittlin'");
+        addAtomic("read", "eyeball");
+        addMapping("write", "scribble");
+        addMapping("(?<![adet] )(?<![ae])th(?![i])", "d");
+        addMapping("(?<![adet] )(?<![ae])Th(?![i])", "D");
 
     }
 

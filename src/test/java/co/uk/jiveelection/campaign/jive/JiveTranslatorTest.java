@@ -152,8 +152,8 @@ public class JiveTranslatorTest {
         assertThat(jiveTranslator.translate("e the"), is("e da damn"));
         assertThat(jiveTranslator.translate("aaa see the"), is("aaa see da damn"));
         assertThat(jiveTranslator.translate("see the aaa"), is("see da damn aaa"));
-        assertThat(jiveTranslator.translate("the"), is("the"));
-        assertThat(jiveTranslator.translate(" the"), is(" the"));
+        assertThat(jiveTranslator.translate("the"), is("de"));
+        assertThat(jiveTranslator.translate(" the"), is(" de"));
     }
 
     @Test
@@ -161,8 +161,8 @@ public class JiveTranslatorTest {
         assertThat(jiveTranslator.translate("a the"), is("a da damn"));
         assertThat(jiveTranslator.translate("aaa la the"), is("aaa la da damn"));
         assertThat(jiveTranslator.translate("la the aaa"), is("la da damn aaa"));
-        assertThat(jiveTranslator.translate("the"), is("the"));
-        assertThat(jiveTranslator.translate(" the"), is(" the"));
+        assertThat(jiveTranslator.translate("the"), is("de"));
+        assertThat(jiveTranslator.translate(" the"), is(" de"));
     }
 
     @Test
@@ -170,8 +170,8 @@ public class JiveTranslatorTest {
         assertThat(jiveTranslator.translate("t the"), is("t da damn"));
         assertThat(jiveTranslator.translate("aaa cat the"), is("aaa cat da damn"));
         assertThat(jiveTranslator.translate("cat the aaa"), is("cat da damn aaa"));
-        assertThat(jiveTranslator.translate("the"), is("the"));
-        assertThat(jiveTranslator.translate(" the"), is(" the"));
+        assertThat(jiveTranslator.translate("the"), is("de"));
+        assertThat(jiveTranslator.translate(" the"), is(" de"));
     }
 
     @Test
@@ -179,8 +179,8 @@ public class JiveTranslatorTest {
         assertThat(jiveTranslator.translate("d the"), is("d da damn"));
         assertThat(jiveTranslator.translate("aaa bad the"), is("aaa bad da damn"));
         assertThat(jiveTranslator.translate("bad the aaa"), is("bad da damn aaa"));
-        assertThat(jiveTranslator.translate("the"), is("the"));
-        assertThat(jiveTranslator.translate(" the"), is(" the"));
+        assertThat(jiveTranslator.translate("the"), is("de"));
+        assertThat(jiveTranslator.translate(" the"), is(" de"));
     }
 
     @Test
@@ -640,5 +640,109 @@ public class JiveTranslatorTest {
         assertThat(jiveTranslator.translate("aaa your"), is("aaa yo'"));
         assertThat(jiveTranslator.translate("your aaa"), is("yo' aaa"));
         assertThat(jiveTranslator.translate("yourself"), is("yo'self"));
+    }
+
+    @Test
+    public void should_translate_four() {
+        assertThat(jiveTranslator.translate("four"), is("foe"));
+        assertThat(jiveTranslator.translate("aaa four"), is("aaa foe"));
+        assertThat(jiveTranslator.translate("four aaa"), is("foe aaa"));
+        assertThat(jiveTranslator.translate("fourteen"), is("foeteen"));
+    }
+
+    @Test
+    public void should_translate_got() {
+        assertThat(jiveTranslator.translate("got"), is("gots"));
+        assertThat(jiveTranslator.translate("aaa got"), is("aaa gots"));
+        assertThat(jiveTranslator.translate("got aaa"), is("gots aaa"));
+        assertThat(jiveTranslator.translate("gothic"), is("gothic"));
+    }
+
+    @Test
+    public void should_translate_arent() {
+        assertThat(jiveTranslator.translate("aren't"), is("ain't"));
+        assertThat(jiveTranslator.translate("aaa aren't"), is("aaa ain't"));
+        assertThat(jiveTranslator.translate("aren't aaa"), is("ain't aaa"));
+    }
+
+    @Test
+    public void should_translate_young() {
+        assertThat(jiveTranslator.translate("young"), is("yung"));
+        assertThat(jiveTranslator.translate("aaa young"), is("aaa yung"));
+        assertThat(jiveTranslator.translate("young aaa"), is("yung aaa"));
+        assertThat(jiveTranslator.translate("youngster"), is("yungster"));
+    }
+
+    @Test
+    public void should_translate_you() {
+        assertThat(jiveTranslator.translate("you"), is("ya'"));
+        assertThat(jiveTranslator.translate("aaa you"), is("aaa ya'"));
+        assertThat(jiveTranslator.translate("you aaa"), is("ya' aaa"));
+        assertThat(jiveTranslator.translate("yourself"), is("yo'self"));
+    }
+
+    @Test
+    public void should_translate_You() {
+        assertThat(jiveTranslator.translate("You"), is("You's"));
+        assertThat(jiveTranslator.translate("aaa You"), is("aaa You's"));
+        assertThat(jiveTranslator.translate("You aaa"), is("You's aaa"));
+        assertThat(jiveTranslator.translate("Yourself"), is("Yo'self"));
+    }
+
+    @Test
+    public void should_translate_first() {
+        assertThat(jiveTranslator.translate("first"), is("fust"));
+        assertThat(jiveTranslator.translate("aaa first"), is("aaa fust"));
+        assertThat(jiveTranslator.translate("first aaa"), is("fust aaa"));
+        assertThat(jiveTranslator.translate("firstly"), is("fustly"));
+    }
+
+    @Test
+    public void should_translate_police() {
+        assertThat(jiveTranslator.translate("police"), is("honky pigs"));
+        assertThat(jiveTranslator.translate("aaa police"), is("aaa honky pigs"));
+        assertThat(jiveTranslator.translate("police aaa"), is("honky pigs aaa"));
+        assertThat(jiveTranslator.translate("policed"), is("policed"));
+    }
+
+    @Test
+    public void should_translate_string() {
+        assertThat(jiveTranslator.translate("string"), is("chittlin'"));
+        assertThat(jiveTranslator.translate("aaa string"), is("aaa chittlin'"));
+        assertThat(jiveTranslator.translate("string aaa"), is("chittlin' aaa"));
+        assertThat(jiveTranslator.translate("hamstring"), is("hamstring"));
+    }
+
+    @Test
+    public void should_translate_read() {
+        assertThat(jiveTranslator.translate("read"), is("eyeball"));
+        assertThat(jiveTranslator.translate("aaa read"), is("aaa eyeball"));
+        assertThat(jiveTranslator.translate("read aaa"), is("eyeball aaa"));
+        assertThat(jiveTranslator.translate("readiness"), is("readiness"));
+    }
+
+    @Test
+    public void should_translate_write() {
+        assertThat(jiveTranslator.translate("write"), is("scribble"));
+        assertThat(jiveTranslator.translate("aaa write"), is("aaa scribble"));
+        assertThat(jiveTranslator.translate("write aaa"), is("scribble aaa"));
+        assertThat(jiveTranslator.translate("ghostwriter"), is("ghostscribbler"));
+    }
+
+    @Test
+    public void should_translate_th() {
+        assertThat(jiveTranslator.translate("th"), is("d"));
+        assertThat(jiveTranslator.translate("xxx th"), is("xxx d"));
+        assertThat(jiveTranslator.translate("th aaa"), is("d aaa"));
+        assertThat(jiveTranslator.translate("fifth"), is("fifd"));
+        assertThat(jiveTranslator.translate("that"), is("dat"));
+    }
+
+    @Test
+    public void should_translate_Th() {
+        assertThat(jiveTranslator.translate("Th"), is("D"));
+        assertThat(jiveTranslator.translate("xxx Th"), is("xxx D"));
+        assertThat(jiveTranslator.translate("Th aaa"), is("D aaa"));
+        assertThat(jiveTranslator.translate("That"), is("Dat"));
     }
 }
