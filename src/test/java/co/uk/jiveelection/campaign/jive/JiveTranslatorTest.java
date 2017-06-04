@@ -44,7 +44,7 @@ public class JiveTranslatorTest {
         assertThat(jiveTranslator.translate("program"), is("honky code"));
         assertThat(jiveTranslator.translate("aaa program"), is("aaa honky code"));
         assertThat(jiveTranslator.translate("program aaa"), is("honky code aaa"));
-        assertThat(jiveTranslator.translate("programming"), is("programming"));
+        assertThat(jiveTranslator.translate("programming"), is("programmin'"));
     }
 
     @Test
@@ -436,7 +436,7 @@ public class JiveTranslatorTest {
         assertThat(jiveTranslator.translate("buy"), is("steal"));
         assertThat(jiveTranslator.translate("aaa buy"), is("aaa steal"));
         assertThat(jiveTranslator.translate("buy aaa"), is("steal aaa"));
-        assertThat(jiveTranslator.translate("buyer"), is("buyer"));
+        assertThat(jiveTranslator.translate("buyer"), is("buya'"));
     }
 
     @Test
@@ -452,7 +452,7 @@ public class JiveTranslatorTest {
         assertThat(jiveTranslator.translate("drive"), is("roll"));
         assertThat(jiveTranslator.translate("aaa drive"), is("aaa roll"));
         assertThat(jiveTranslator.translate("drive aaa"), is("roll aaa"));
-        assertThat(jiveTranslator.translate("screwdriver"), is("screwdriver"));
+        assertThat(jiveTranslator.translate("screwdriver"), is("screwdriva'"));
     }
 
     @Test
@@ -483,7 +483,7 @@ public class JiveTranslatorTest {
         assertThat(jiveTranslator.translate("white"), is("honky"));
         assertThat(jiveTranslator.translate("aaa white"), is("aaa honky"));
         assertThat(jiveTranslator.translate("white aaa"), is("honky aaa"));
-        assertThat(jiveTranslator.translate("whiter"), is("whiter"));
+        assertThat(jiveTranslator.translate("whiter"), is("whita'"));
     }
 
     @Test
@@ -530,7 +530,7 @@ public class JiveTranslatorTest {
         assertThat(jiveTranslator.translate("home"), is("crib"));
         assertThat(jiveTranslator.translate("aaa home"), is("aaa crib"));
         assertThat(jiveTranslator.translate("home aaa"), is("crib aaa"));
-        assertThat(jiveTranslator.translate("whomever"), is("whomever"));
+        assertThat(jiveTranslator.translate("whomever"), is("whomeva'"));
     }
 
     @Test
@@ -670,7 +670,7 @@ public class JiveTranslatorTest {
         assertThat(jiveTranslator.translate("young"), is("yung"));
         assertThat(jiveTranslator.translate("aaa young"), is("aaa yung"));
         assertThat(jiveTranslator.translate("young aaa"), is("yung aaa"));
-        assertThat(jiveTranslator.translate("youngster"), is("yungster"));
+        assertThat(jiveTranslator.translate("youngster"), is("yungsta'"));
     }
 
     @Test
@@ -744,5 +744,137 @@ public class JiveTranslatorTest {
         assertThat(jiveTranslator.translate("xxx Th"), is("xxx D"));
         assertThat(jiveTranslator.translate("Th aaa"), is("D aaa"));
         assertThat(jiveTranslator.translate("That"), is("Dat"));
+    }
+
+    @Test
+    public void should_translate_ing() {
+        assertThat(jiveTranslator.translate("ing"), is("in'"));
+        assertThat(jiveTranslator.translate("aaaing"), is("aaain'"));
+        assertThat(jiveTranslator.translate("ing aaa"), is("in' aaa"));
+        assertThat(jiveTranslator.translate("winning"), is("winnin'"));
+    }
+
+    @Test
+    public void should_translate_a() {
+        assertThat(jiveTranslator.translate("a"), is("some"));
+        assertThat(jiveTranslator.translate("aaa a"), is("aaa some"));
+        assertThat(jiveTranslator.translate("a aaa"), is("some aaa"));
+        assertThat(jiveTranslator.translate("awesome"), is("awesome"));
+    }
+
+    @Test
+    public void should_translate_to() {
+        assertThat(jiveTranslator.translate("to"), is("to"));
+        assertThat(jiveTranslator.translate("aaa to"), is("aaa to"));
+        assertThat(jiveTranslator.translate("to aaa"), is("t'aaa"));
+        assertThat(jiveTranslator.translate("to town"), is("t'town"));
+        assertThat(jiveTranslator.translate("too"), is("too"));
+    }
+
+    @Test
+    public void should_translate_tion() {
+        assertThat(jiveTranslator.translate("tion"), is("shun"));
+        assertThat(jiveTranslator.translate("election"), is("elecshun"));
+    }
+
+    @Test
+    public void should_translate_almost() {
+        assertThat(jiveTranslator.translate("almost"), is("mos'"));
+        assertThat(jiveTranslator.translate("aaa almost"), is("aaa mos'"));
+        assertThat(jiveTranslator.translate("almost aaa"), is("mos' aaa"));
+    }
+
+    @Test
+    public void should_translate_from() {
+        assertThat(jiveTranslator.translate("from"), is("fum"));
+        assertThat(jiveTranslator.translate("aaa from"), is("aaa fum"));
+        assertThat(jiveTranslator.translate("from aaa"), is("fum aaa"));
+        assertThat(jiveTranslator.translate("wherefrom"), is("wherefrom"));
+    }
+
+    @Test
+    public void should_translate_Youre() {
+        assertThat(jiveTranslator.translate("You're"), is("Youse"));
+        assertThat(jiveTranslator.translate("aaa You're"), is("aaa Youse"));
+        assertThat(jiveTranslator.translate("You're aaa"), is("Youse aaa"));
+    }
+
+    @Test
+    public void should_translate_youre() {
+        assertThat(jiveTranslator.translate("you're"), is("youse"));
+        assertThat(jiveTranslator.translate("aaa you're"), is("aaa youse"));
+        assertThat(jiveTranslator.translate("you're aaa"), is("youse aaa"));
+    }
+
+    @Test
+    public void should_translate_alright() {
+        assertThat(jiveTranslator.translate("alright"), is("coo'"));
+        assertThat(jiveTranslator.translate("aaa alright"), is("aaa coo'"));
+        assertThat(jiveTranslator.translate("alright aaa"), is("coo' aaa"));
+    }
+
+    @Test
+    public void should_translate_okay() {
+        assertThat(jiveTranslator.translate("okay"), is("coo'"));
+        assertThat(jiveTranslator.translate("aaa okay"), is("aaa coo'"));
+        assertThat(jiveTranslator.translate("okay aaa"), is("coo' aaa"));
+    }
+
+    @Test
+    public void should_translate_er() {
+        assertThat(jiveTranslator.translate("er"), is("a'"));
+        assertThat(jiveTranslator.translate("aaa er"), is("aaa a'"));
+        assertThat(jiveTranslator.translate("er aaa"), is("a' aaa"));
+        assertThat(jiveTranslator.translate("winter"), is("winta'"));
+        assertThat(jiveTranslator.translate("error"), is("error"));
+    }
+
+    @Test
+    public void should_translate_known() {
+        assertThat(jiveTranslator.translate("known"), is("knode"));
+        assertThat(jiveTranslator.translate("aaa known"), is("aaa knode"));
+        assertThat(jiveTranslator.translate("known aaa"), is("knode aaa"));
+    }
+
+    @Test
+    public void should_translate_want() {
+        assertThat(jiveTranslator.translate("want"), is("wants'"));
+        assertThat(jiveTranslator.translate("aaa want"), is("aaa wants'"));
+        assertThat(jiveTranslator.translate("want aaa"), is("wants' aaa"));
+    }
+
+    @Test
+    public void should_translate_beat() {
+        assertThat(jiveTranslator.translate("beat"), is("whup'"));
+        assertThat(jiveTranslator.translate("aaa beat"), is("aaa whup'"));
+        assertThat(jiveTranslator.translate("beat aaa"), is("whup' aaa"));
+        assertThat(jiveTranslator.translate("beating"), is("beatin'"));
+    }
+
+    @Test
+    public void should_translate_exp() {
+        assertThat(jiveTranslator.translate("explain"), is("'splain"));;
+    }
+
+    @Test
+    public void should_translate_exs() {
+        assertThat(jiveTranslator.translate("exsert"), is("'sert"));;
+    }
+
+    @Test
+    public void should_translate_exc() {
+        assertThat(jiveTranslator.translate("exclaim"), is("'slaim"));;
+    }
+
+    @Test
+    public void should_translate_ex() {
+        assertThat(jiveTranslator.translate("extra"), is("'estra"));
+    }
+
+    @Test
+    public void should_translate_like() {
+        assertThat(jiveTranslator.translate("like"), is("likes"));
+        assertThat(jiveTranslator.translate("aaa like aaa"), is("aaa likes aaa"));
+        assertThat(jiveTranslator.translate("likes"), is("likes"));
     }
 }

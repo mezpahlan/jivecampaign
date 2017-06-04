@@ -79,8 +79,8 @@ public class JiveMappings extends HashMap<String, String> {
         addAtomic("got(?! to)", "gots");
         addAtomic("aren't", "ain't");
         addMapping("young", "yung");
-        addAtomic("(?<!are )you", "ya'");
-        addAtomic("You", "You's");
+        addAtomic("(?<!are )you(?!')", "ya'");
+        addAtomic("You(?!')", "You's");
         addMapping("first", "fust");
         addAtomic("police", "honky pigs");
         addAtomic("string", "chittlin'");
@@ -88,6 +88,22 @@ public class JiveMappings extends HashMap<String, String> {
         addMapping("write", "scribble");
         addMapping("(?<![adet] )(?<![ae])th(?![i])", "d");
         addMapping("(?<![adet] )(?<![ae])Th(?![i])", "D");
+        addRightAtomic("(?<!str|th)ing", "in'");
+        addAtomic("a(?!\\.| the)", "some");
+        addLeftAtomic("(?<!have |got )to ", "t'");
+        addRightAtomic("tion", "shun");
+        addAtomic("almost", "mos'");
+        addAtomic("from", "fum");
+        addAtomic("([Yy])ou're", "$1ouse");
+        addAtomic("alright|okay", "coo'");
+        addRightAtomic("(?<!writ|ov|prime minist|comput|nigg)er", "a'");
+        addAtomic("known", "knode");
+        addAtomic("want", "wants'");
+        addAtomic("beat", "whup'");
+        addLeftAtomic("exp", "'sp");
+        addLeftAtomic("exs|exc", "'s");
+        addLeftAtomic("ex(?!c|p|s)", "'es");
+        addAtomic("like(?!s)", "likes");
 
     }
 
