@@ -8,7 +8,7 @@ import java.util.HashMap;
  * <p>
  * Seeds the mappings in the constructor.
  */
-public class JiveMappings extends HashMap<String, String> {
+class JiveMappings extends HashMap<String, String> {
 
     JiveMappings() {
         addAtomic("file", "stash");
@@ -104,7 +104,12 @@ public class JiveMappings extends HashMap<String, String> {
         addLeftAtomic("exs|exc", "'s");
         addLeftAtomic("ex(?!c|p|s)", "'es");
         addAtomic("like(?!s)", "likes");
-
+        addAtomic("did", "dun did");
+        addAtomic("kind of", "kind'a");
+        addAtomic("women", "honky chicks");
+        addAtomic("mens?", "dudes");
+        addAtomic("dead", "wasted");
+        addAtomic("good", "baaaad");
     }
 
     /**
@@ -115,7 +120,6 @@ public class JiveMappings extends HashMap<String, String> {
      *
      * @param key   The item to be translated.
      * @param value The translation
-     * @return Ignore. Do not use.
      */
     private void addAtomic(String key, String value) {
         super.put("\\b" + key + "\\b", value);

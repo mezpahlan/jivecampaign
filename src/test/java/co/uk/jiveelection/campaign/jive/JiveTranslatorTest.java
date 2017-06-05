@@ -853,17 +853,17 @@ public class JiveTranslatorTest {
 
     @Test
     public void should_translate_exp() {
-        assertThat(jiveTranslator.translate("explain"), is("'splain"));;
+        assertThat(jiveTranslator.translate("explain"), is("'splain"));
     }
 
     @Test
     public void should_translate_exs() {
-        assertThat(jiveTranslator.translate("exsert"), is("'sert"));;
+        assertThat(jiveTranslator.translate("exsert"), is("'sert"));
     }
 
     @Test
     public void should_translate_exc() {
-        assertThat(jiveTranslator.translate("exclaim"), is("'slaim"));;
+        assertThat(jiveTranslator.translate("exclaim"), is("'slaim"));
     }
 
     @Test
@@ -876,5 +876,54 @@ public class JiveTranslatorTest {
         assertThat(jiveTranslator.translate("like"), is("likes"));
         assertThat(jiveTranslator.translate("aaa like aaa"), is("aaa likes aaa"));
         assertThat(jiveTranslator.translate("likes"), is("likes"));
+    }
+
+    @Test
+    public void should_translate_did() {
+        assertThat(jiveTranslator.translate("did"), is("dun did"));
+        assertThat(jiveTranslator.translate("aaa did aaa"), is("aaa dun did aaa"));
+        assertThat(jiveTranslator.translate("candid"), is("candid"));
+    }
+
+    @Test
+    public void should_translate_kind_of() {
+        assertThat(jiveTranslator.translate("kind of"), is("kind'a"));
+        assertThat(jiveTranslator.translate("aaa kind of aaa"), is("aaa kind'a aaa"));
+        assertThat(jiveTranslator.translate("mankind offered"), is("mankind offered"));
+    }
+
+    @Test
+    public void should_translate_women() {
+        assertThat(jiveTranslator.translate("women"), is("honky chicks"));
+        assertThat(jiveTranslator.translate("aaa women aaa"), is("aaa honky chicks aaa"));
+        assertThat(jiveTranslator.translate("anchorwomen"), is("anchorwomen"));
+    }
+
+    @Test
+    public void should_translate_men() {
+        assertThat(jiveTranslator.translate("men"), is("dudes"));
+        assertThat(jiveTranslator.translate("aaa men aaa"), is("aaa dudes aaa"));
+        assertThat(jiveTranslator.translate("women"), is("honky chicks"));
+    }
+
+    @Test
+    public void should_translate_mens() {
+        assertThat(jiveTranslator.translate("mens"), is("dudes"));
+        assertThat(jiveTranslator.translate("aaa mens aaa"), is("aaa dudes aaa"));
+        assertThat(jiveTranslator.translate("anchormens"), is("anchormens"));
+    }
+
+    @Test
+    public void should_translate_dead() {
+        assertThat(jiveTranslator.translate("dead"), is("wasted"));
+        assertThat(jiveTranslator.translate("aaa dead aaa"), is("aaa wasted aaa"));
+        assertThat(jiveTranslator.translate("deadliest"), is("deadliest"));
+    }
+
+    @Test
+    public void should_translate_good() {
+        assertThat(jiveTranslator.translate("good"), is("baaaad"));
+        assertThat(jiveTranslator.translate("aaa good aaa"), is("aaa baaaad aaa"));
+        assertThat(jiveTranslator.translate("goodbye"), is("goodbye"));
     }
 }
