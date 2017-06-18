@@ -10,7 +10,9 @@ import java.util.HashMap;
  */
 class JiveMappings extends HashMap<String, String> {
 
-    JiveMappings() {
+    private static final JiveMappings instance = new JiveMappings();
+
+    private JiveMappings() {
         addAtomic("file", "stash");
         addAtomic("send", "t'row");
         addAtomic("program", "honky code");
@@ -183,6 +185,10 @@ class JiveMappings extends HashMap<String, String> {
         addAtomic("down", "waaay down");
         addAtomic("Hi", "'Sup, dude");
         addAtomic("VAX", "Pink Cadillac");
+    }
+
+    public static JiveMappings getInstance() {
+        return instance;
     }
 
     /**
