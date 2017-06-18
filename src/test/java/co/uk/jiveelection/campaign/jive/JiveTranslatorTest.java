@@ -926,4 +926,18 @@ public class JiveTranslatorTest {
         assertThat(jiveTranslator.translate("aaa good aaa"), is("aaa baaaad aaa"));
         assertThat(jiveTranslator.translate("goodbye"), is("goodbye"));
     }
+
+    @Test
+    public void should_translate_open() {
+        assertThat(jiveTranslator.translate("open"), is("jimmey"));
+        assertThat(jiveTranslator.translate("aaa open aaa"), is("aaa jimmey aaa"));
+        assertThat(jiveTranslator.translate("opened"), is("jimmey'd"));
+    }
+
+    @Test
+    public void should_translate_opened() {
+        assertThat(jiveTranslator.translate("opened"), is("jimmey'd"));
+        assertThat(jiveTranslator.translate("aaa opened aaa"), is("aaa jimmey'd aaa"));
+        assertThat(jiveTranslator.translate("unopened"), is("unopened"));
+    }
 }

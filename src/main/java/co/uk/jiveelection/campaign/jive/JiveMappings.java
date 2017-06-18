@@ -110,6 +110,8 @@ class JiveMappings extends HashMap<String, String> {
         addAtomic("mens?", "dudes");
         addAtomic("dead", "wasted");
         addAtomic("good", "baaaad");
+        addAtomic("open", "jimmey");
+        addAtomic("opened", "jimmey'd");
     }
 
     /**
