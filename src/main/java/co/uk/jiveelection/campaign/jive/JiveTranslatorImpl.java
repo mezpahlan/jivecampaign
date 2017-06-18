@@ -16,7 +16,7 @@ public class JiveTranslatorImpl implements JiveTranslator {
 
     private final JiveMappings jiveMappings;
 
-    public JiveTranslatorImpl() {
+    JiveTranslatorImpl() {
         jiveMappings = new JiveMappings();
     }
 
