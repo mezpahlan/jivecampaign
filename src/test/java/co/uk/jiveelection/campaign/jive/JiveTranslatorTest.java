@@ -11,7 +11,7 @@ import static org.junit.Assert.assertThat;
  */
 public class JiveTranslatorTest {
 
-    private JiveTranslatorImpl jiveTranslator;
+    private JiveTranslator jiveTranslator;
 
     @Before
     public void setUp() throws Exception {
