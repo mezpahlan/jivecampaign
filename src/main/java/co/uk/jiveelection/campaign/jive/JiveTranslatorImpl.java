@@ -16,7 +16,7 @@ public class JiveTranslatorImpl implements JiveTranslator {
 
     private final JiveMappings jiveMappings;
 
-    JiveTranslatorImpl() {
+    public JiveTranslatorImpl() {
         jiveMappings = JiveMappings.getInstance();
     }
 
