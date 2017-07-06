@@ -31,7 +31,6 @@ public class App {
         TwitHelper jivebotJeremyCorbyn = new TwitHelper("jeremycorbyn", TwitConfig.JEREMY_JIVEBYN_ACCESS_TOKEN, TwitConfig.JEREMY_JIVEBYN_ACCESS_TOKEN_SECRET, new JiveTranslatorImpl());
         TwitHelper jivebotJiveFarron = new TwitHelper("timfarron", TwitConfig.JIVE_FARRON_ACCESS_TOKEN, TwitConfig.JIVE_FARRON_ACCESS_TOKEN_SECRET, new JiveTranslatorImpl());
         TwitHelper jivebotJiveolaSturgeon = new TwitHelper("NicolaSturgeon", TwitConfig.JIVEOLA_STURGEON_ACCESS_TOKEN, TwitConfig.JIVEOLA_STURGEON_ACCESS_TOKEN_SECRET, new JiveTranslatorImpl());
-        TwitHelper jivebotPaulJiveallJivekip = new TwitHelper("paulnuttallukip", TwitConfig.PAUL_JIVEALL_ACCESS_TOKEN, TwitConfig.PAUL_JIVEALL_ACCESS_TOKEN_SECRET, new JiveTranslatorImpl());
         TwitHelper jivebotJiveanneWood = new TwitHelper("LeanneWood", TwitConfig.JIVEANNE_WOOD_ACCESS_TOKEN, TwitConfig.JIVEANNE_WOOD_ACCESS_TOKEN_SECRET, new JiveTranslatorImpl());
         TwitHelper jivebotJiveolineLucas = new TwitHelper("CarolineLucas", TwitConfig.JIVEOLINE_LUCAS_ACCESS_TOKEN, TwitConfig.JIVEOLINE_LUCAS_ACCESS_TOKEN_SECRET, new JiveTranslatorImpl());
     }
