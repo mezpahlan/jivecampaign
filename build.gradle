@@ -1,0 +1,37 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+jar {
+    baseName = 'jivecampaign'
+    version =  '0.2.0'
+}
+
+repositories {
+    jcenter()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile 'org.twitter4j:twitter4j-core:4.0.6'
+    compile 'org.twitter4j:twitter4j-stream:4.0.6'
+    compile 'org.twitter4j:twitter4j-async:4.0.6'
+    compile 'org.apache.httpcomponents:httpclient:4.5.3'
+    compile 'org.apache.commons:commons-lang3:3.5'
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile 'junit:junit:4.12'
+}
