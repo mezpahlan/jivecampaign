@@ -1,7 +1,7 @@
 package co.uk.jiveelection.campaign.twit;
 
 import co.uk.jiveelection.campaign.TwitConfig;
-import co.uk.jiveelection.campaign.jive.JiveHelper;
+import co.uk.jiveelection.campaign.jive.JiveTranslator;
 import twitter4j.*;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
@@ -11,22 +11,52 @@ import java.util.Collections;
 import java.util.List;
 
 public class TwitHelper {
-    public String statusText;
+    private final JiveTranslator jiveTranslator;
     private Twitter twitter;
-    private List<EntitiesModel> entities;
-    private TwitterStream twitterStream;
 
-    public TwitHelper(String realUserName, String jivebotToken, String jivebotTokenSecret) throws TwitterException {
+    public TwitHelper(String realUserName, String jivebotToken, String jivebotTokenSecret, JiveTranslator jiveTranslator) throws TwitterException {
+        this.jiveTranslator = jiveTranslator;
         // Initialise the TwitHelper
         init(realUserName, jivebotToken, jivebotTokenSecret);
     }
 
     private void translateToJive(Status status) {
         // Extract status as text
-        this.statusText = status.getText();
+        String statusText = status.getText();
+        final List<EntitiesModel> entities = exractEntities(status);
 
+
+        // Translate the tweet to jive
+        String jive;
+
+        // TODO: We shouldn't care about the size of the entity collection. Refactor this statement so that we don't.
+        // Do we have entities? If not translate the input. If so substring and translate.
+        if (entities.size() == 0) {
+            jive = jiveTranslator.translate(statusText);
+        } else {
+            jive = processEntities(statusText, entities);
+        }
+
+        // Tweet, xzibit style
+        // Check if jive is > 140 characters
+        // if yes break into smaller tweet with [1/2], [2,2] suffix
+        // if not tweet
+        if (jive.length() > 140) {
+            int i = jive.lastIndexOf(" ", 132);
+
+            String first = jive.substring(0, i) + " [1/2]";
+            String second = jive.substring(i + 1) + " [2/2]";
+
+            tweetJive(first);
+            tweetJive(second);
+        } else {
+            tweetJive(jive);
+        }
+    }
+
+    private List<EntitiesModel> exractEntities(Status status) {
         // Begin entity extract
-        this.entities = new ArrayList<EntitiesModel>();
+        final List<EntitiesModel> entities = new ArrayList<>();
 
         // Get URL Entities
         for (int i = 0; i < status.getURLEntities().length; i++) {
@@ -60,31 +90,27 @@ public class TwitHelper {
         // Order the List of Entities by start position
         Collections.sort(entities);
 
-        // Translate the tweet to jive
-        String jive = JiveHelper.translateToJive(statusText, entities);
-
-        // Tweet, xzibit style
-        // Check if jive is > 140 characters
-        // if yes break into smaller tweet with [1/2], [2,2] suffix
-        // if not tweet
-        if (jive.length() > 140) {
-            int i = jive.lastIndexOf(" ", 132);
-
-            String first = jive.substring(0, i) + " [1/2]";
-            String second = jive.substring(i + 1) + " [2/2]";
-
-            tweetJive(first);
-            tweetJive(second);
-        } else {
-            tweetJive(jive);
-        }
+        return entities;
     }
 
-    /**
-     * @return The entities
-     */
-    public List<EntitiesModel> getEntities() {
-        return entities;
+    private String processEntities(String statusText, List<EntitiesModel> entities) {
+        int position = 0;
+        StringBuilder builder = new StringBuilder();
+        for (EntitiesModel entity : entities) {
+            builder.append(jiveTranslator.translate(statusText.substring(position, entity.getStart())))
+                    .append(" ")
+                    .append(jiveTranslator.translate(statusText.substring(entity.getStart(), entity.getEnd())))
+                    .append(" ");
+            position = entity.getEnd() + 1;
+        }
+
+        // Here we have no more entities but could still have text to jivelate
+        if (position < statusText.length()) {
+            builder.append(jiveTranslator.translate(statusText.substring(position)));
+        }
+
+        // TODO: encode the spaces in the entities?
+        return builder.toString();
     }
 
     /**
@@ -102,7 +128,7 @@ public class TwitHelper {
                 .build();
 
         twitter = new TwitterFactory(configuration).getInstance();
-        twitterStream = new TwitterStreamFactory(configuration).getInstance();
+        TwitterStream twitterStream = new TwitterStreamFactory(configuration).getInstance();
         long realId = twitter.showUser(realUserName).getId();
 
         FilterQuery tweetFilterQuery = new FilterQuery();
@@ -149,7 +175,7 @@ public class TwitHelper {
      *
      * @param jive The String to be tweeted
      */
-    public void tweetJive(String jive) {
+    private void tweetJive(String jive) {
         try {
             Status status = twitter.updateStatus(jive);
         } catch (TwitterException e) {
