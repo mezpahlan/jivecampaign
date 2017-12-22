@@ -5,8 +5,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import twitter4j.TwitterException;
 
-import java.io.IOException;
-
 /**
  * Main entry point for the Jive Campaign application. Sets up a continuously running loop that
  * checks the latest tweet from the named candidate, translates it to jive, then tweets it as a
@@ -15,8 +13,7 @@ import java.io.IOException;
 @SpringBootApplication
 public class App {
 
-    public static void main(String[] args) throws TwitterException, IOException,
-            InterruptedException {
+    public static void main(String[] args) throws TwitterException {
 
         SpringApplication.run(App.class, args);
 

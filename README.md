@@ -5,3 +5,10 @@ Backend for all Jive election campaigns. Written in Java.
 Runs as a Spring Boot application
 
 1. Edit the TwitConfig file with your consumer and access keys.
+
+## Deploying to Cloud Foundry
+
+1. Download and install the `cf` command line tool
+2. Log into CF
+3. `./gradlew clean build`
+4. `cf push jivecampaign -p build/libs/jivecampaign-x.y.z.jar`
