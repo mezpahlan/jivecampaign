@@ -1,25 +1,14 @@
 package co.uk.jiveelection.campaign.twit;
 
-public class EntitiesModel implements Comparable<EntitiesModel> {
-    private int start;
-    private int end;
+import com.google.auto.value.AutoValue;
 
-    public int getStart() {
-        return start;
+@AutoValue
+public abstract class EntitiesModel {
+    public static EntitiesModel create(int start, int end) {
+        return new AutoValue_EntitiesModel(start, end);
     }
 
-    public int getEnd() {
-        return end;
-    }
+    public abstract int start();
 
-    public EntitiesModel(int start, int end) {
-        this.start = start;
-        this.end = end;
-    }
-
-    @Override
-    public int compareTo(EntitiesModel o) {
-        return this.getStart() - o.getStart();
-    }
-
+    public abstract int end();
 }

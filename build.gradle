@@ -12,8 +12,8 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'net.ltgt.apt'
 apply plugin: 'idea'
+apply plugin: 'net.ltgt.apt-idea'
 apply plugin: 'org.springframework.boot'
 
 jar {

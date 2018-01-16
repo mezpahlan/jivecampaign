@@ -82,18 +82,18 @@ public class JiveHelper {
 		} else {
 			for (int i = 0; i < entitySize; i++) {
 				EntitiesModel entity = entities.get(i);
-				sub = inputText.substring(position, entity.getStart());
+				sub = inputText.substring(position, entity.start());
 				if (sub.length() > 0) {
 					jive += JiveHelper.jiveRequest(sub)
 							+ " "
-							+ inputText.substring(entities.get(i).getStart(), entities.get(i)
-									.getEnd()) + " ";
+							+ inputText.substring(entities.get(i).start(), entities.get(i)
+									.end()) + " ";
 				} else {
 					jive += inputText
-							.substring(entities.get(i).getStart(), entities.get(i).getEnd()) + " ";
+							.substring(entities.get(i).start(), entities.get(i).end()) + " ";
 				}
 
-				position = entities.get(i).getEnd() + 1;
+				position = entities.get(i).end() + 1;
 			}
 			// Here we have no more entities but could still have text to jivelate
 			if (position < inputText.length()) {

@@ -7,7 +7,7 @@ import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -55,30 +55,30 @@ public class TweetHelper {
         // Get URL Entities
         for (int i = 0; i < status.getURLEntities().length; i++) {
             URLEntity urlEntities = status.getURLEntities()[i];
-            entities.add(new EntitiesModel(urlEntities.getStart(), urlEntities.getEnd()));
+            entities.add(EntitiesModel.create(urlEntities.getStart(), urlEntities.getEnd()));
         }
 
         // Get Media Entities
         for (int i = 0; i < status.getMediaEntities().length; i++) {
             MediaEntity mediaEntities = status.getMediaEntities()[i];
-            entities.add(new EntitiesModel(mediaEntities.getStart(), mediaEntities.getEnd()));
+            entities.add(EntitiesModel.create(mediaEntities.getStart(), mediaEntities.getEnd()));
         }
 
         // Get UserMentionEntity if they exists
         for (int i = 0; i < status.getUserMentionEntities().length; i++) {
             UserMentionEntity userMentionEntities = status.getUserMentionEntities()[i];
-            entities.add(new EntitiesModel(userMentionEntities.getStart(), userMentionEntities
+            entities.add(EntitiesModel.create(userMentionEntities.getStart(), userMentionEntities
                     .getEnd()));
         }
 
         // Get HashtagEntity if they exists
         for (int i = 0; i < status.getHashtagEntities().length; i++) {
             HashtagEntity hashTagEntities = status.getHashtagEntities()[i];
-            entities.add(new EntitiesModel(hashTagEntities.getStart(), hashTagEntities.getEnd()));
+            entities.add(EntitiesModel.create(hashTagEntities.getStart(), hashTagEntities.getEnd()));
         }
 
         // Order the List of Entities by start position
-        Collections.sort(entities);
+        entities.sort(Comparator.comparingInt(EntitiesModel::start));
 
         return entities;
     }
@@ -87,11 +87,11 @@ public class TweetHelper {
         int position = 0;
         StringBuilder builder = new StringBuilder();
         for (EntitiesModel entity : entities) {
-            builder.append(jiveTranslator.translate(statusText.substring(position, entity.getStart())))
+            builder.append(jiveTranslator.translate(statusText.substring(position, entity.start())))
                     .append(" ")
-                    .append(jiveTranslator.translate(statusText.substring(entity.getStart(), entity.getEnd())))
+                    .append(jiveTranslator.translate(statusText.substring(entity.start(), entity.end())))
                     .append(" ");
-            position = entity.getEnd() + 1;
+            position = entity.end() + 1;
         }
 
         // Here we have no more entities but could still have text to jivelate
