@@ -23,7 +23,7 @@ public class TweetHelper {
         init(realUserName, jivebotToken, jivebotTokenSecret);
     }
 
-    private void translateToJive(Status status) {
+    private void onStatusReceived(Status status) {
         // Extract status as text
         String statusText = status.getText();
         final List<EntitiesModel> entities = exractEntities(status);
@@ -137,7 +137,7 @@ public class TweetHelper {
             @Override
             public void onStatus(Status status) {
                 if (status.getUser().getId() == realId) {
-                    translateToJive(status);
+                    onStatusReceived(status);
                 }
             }
 
