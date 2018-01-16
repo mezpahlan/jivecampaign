@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Configures a Twitter user to tweet on behalf of.
+ */
 public class TweetHelper {
     private final JiveTranslator jiveTranslator;
     private Twitter twitter;
