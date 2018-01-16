@@ -25,17 +25,8 @@ public class TwitHelper {
         String statusText = status.getText();
         final List<EntitiesModel> entities = exractEntities(status);
 
-
         // Translate the tweet to jive
-        String jive;
-
-        // TODO: We shouldn't care about the size of the entity collection. Refactor this statement so that we don't.
-        // Do we have entities? If not translate the input. If so substring and translate.
-        if (entities.size() == 0) {
-            jive = jiveTranslator.translate(statusText);
-        } else {
-            jive = processEntities(statusText, entities);
-        }
+        String jive = processEntities(statusText, entities);
 
         // Tweet, xzibit style
         // Check if jive is > 280 characters
