@@ -12,11 +12,11 @@ import java.util.regex.Pattern;
 /**
  * Implements a Java only JiveTranslator.
  */
-public class JiveTranslatorImpl implements JiveTranslator {
+public class InMemoryJiveTranslator implements JiveTranslator {
 
     private final JiveMappings jiveMappings;
 
-    public JiveTranslatorImpl() {
+    public InMemoryJiveTranslator() {
         jiveMappings = JiveMappings.getInstance();
     }
 

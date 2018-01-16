@@ -15,7 +15,7 @@ public class JiveTranslatorTest {
 
     @Before
     public void setUp() throws Exception {
-        jiveTranslator = new JiveTranslatorImpl();
+        jiveTranslator = new InMemoryJiveTranslator();
     }
 
     @Test
