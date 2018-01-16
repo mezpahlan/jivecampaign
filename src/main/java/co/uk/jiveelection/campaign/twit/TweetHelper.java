@@ -29,7 +29,7 @@ public class TweetHelper {
         final List<EntitiesModel> entities = exractEntities(status);
 
         // Translate the tweet to jive
-        String jive = processEntities(statusText, entities);
+        String jive = translateStatus(statusText, entities);
 
         // Tweet, xzibit style
         // Check if jive is > 280 characters
@@ -87,7 +87,7 @@ public class TweetHelper {
         return entities;
     }
 
-    private String processEntities(String statusText, List<EntitiesModel> entities) {
+    private String translateStatus(String statusText, List<EntitiesModel> entities) {
         int position = 0;
         StringBuilder builder = new StringBuilder();
         for (EntitiesModel entity : entities) {
