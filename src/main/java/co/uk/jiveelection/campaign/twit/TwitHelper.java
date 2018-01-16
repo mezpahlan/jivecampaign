@@ -38,11 +38,11 @@ public class TwitHelper {
         }
 
         // Tweet, xzibit style
-        // Check if jive is > 140 characters
+        // Check if jive is > 280 characters
         // if yes break into smaller tweet with [1/2], [2,2] suffix
         // if not tweet
-        if (jive.length() > 140) {
-            int i = jive.lastIndexOf(" ", 132);
+        if (jive.length() > 280) {
+            int i = jive.lastIndexOf(" ", 265);
 
             String first = jive.substring(0, i) + " [1/2]";
             String second = jive.substring(i + 1) + " [2/2]";
