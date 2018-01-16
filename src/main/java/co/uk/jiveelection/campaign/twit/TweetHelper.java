@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class TwitHelper {
+public class TweetHelper {
     private final JiveTranslator jiveTranslator;
     private Twitter twitter;
 
-    public TwitHelper(String realUserName, String jivebotToken, String jivebotTokenSecret, JiveTranslator jiveTranslator) throws TwitterException {
+    public TweetHelper(String realUserName, String jivebotToken, String jivebotTokenSecret, JiveTranslator jiveTranslator) throws TwitterException {
         this.jiveTranslator = jiveTranslator;
-        // Initialise the TwitHelper
+        // Initialise the TweetHelper
         init(realUserName, jivebotToken, jivebotTokenSecret);
     }
 
@@ -105,7 +105,7 @@ public class TwitHelper {
     }
 
     /**
-     * Initialises the TwitHelper. Loads the authentication for the Jive Bot.
+     * Initialises the TweetHelper. Loads the authentication for the Jive Bot.
      *
      * @param jivebotToken
      * @param jivebotTokenSecret
