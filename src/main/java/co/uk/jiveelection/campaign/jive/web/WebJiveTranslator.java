@@ -1,6 +1,6 @@
-package co.uk.jiveelection.campaign.jive;
+package co.uk.jiveelection.campaign.jive.web;
 
-import co.uk.jiveelection.campaign.utils.TextHelper;
+import co.uk.jiveelection.campaign.jive.JiveTranslator;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.web.client.RestTemplate;
 

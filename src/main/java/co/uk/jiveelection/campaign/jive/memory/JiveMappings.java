@@ -1,4 +1,4 @@
-package co.uk.jiveelection.campaign.jive;
+package co.uk.jiveelection.campaign.jive.memory;
 
 import java.util.HashMap;
 

@@ -1,5 +1,6 @@
 package co.uk.jiveelection.campaign.jive;
 
+import co.uk.jiveelection.campaign.jive.memory.InMemoryJiveTranslator;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -999,7 +1000,7 @@ public class JiveTranslatorTest {
         assertThat(jiveTranslator.translate("aaa John aaa"), is("aaa Raz'tus aaa"));
         assertThat(jiveTranslator.translate("Johnny"), is("Johnny"));
     }
-    
+
     @Test
     public void should_translate_john() {
         assertThat(jiveTranslator.translate("john"), is("Raz'tus"));
@@ -1223,7 +1224,7 @@ public class JiveTranslatorTest {
         assertThat(jiveTranslator.translate("aaa wife aaa"), is("aaa mama aaa"));
         assertThat(jiveTranslator.translate("unwifeny"), is("unwifeny"));
     }
-    
+
     @Test
     public void should_translate_people() {
         assertThat(jiveTranslator.translate("people"), is("sucka's"));
