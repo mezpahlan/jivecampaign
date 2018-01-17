@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Implements a Java only JiveTranslator.
+ * Implements an in memory JiveTranslator.
  */
 public class InMemoryJiveTranslator implements JiveTranslator {
 
