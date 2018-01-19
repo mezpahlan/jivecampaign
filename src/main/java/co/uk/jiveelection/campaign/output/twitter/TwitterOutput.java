@@ -42,10 +42,10 @@ public class TwitterOutput implements Output {
             String first = jive.substring(0, i) + " [1/2]";
             String second = jive.substring(i + 1) + " [2/2]";
 
-            tweetJive(first);
-            tweetJive(second);
+            outputJive(first);
+            outputJive(second);
         } else {
-            tweetJive(jive);
+            outputJive(jive);
         }
     }
 
@@ -161,12 +161,8 @@ public class TwitterOutput implements Output {
         twitterStream.filter(tweetFilterQuery);
     }
 
-    /**
-     * Tweets the jive text via the authenticated jive bot
-     *
-     * @param jive The String to be tweeted
-     */
-    private void tweetJive(String jive) {
+    @Override
+    public void outputJive(String jive) {
         try {
             Status status = twitter.updateStatus(jive);
         } catch (TwitterException e) {
