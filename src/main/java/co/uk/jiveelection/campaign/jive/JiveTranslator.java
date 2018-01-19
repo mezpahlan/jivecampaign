@@ -1,7 +1,9 @@
 package co.uk.jiveelection.campaign.jive;
 
 /**
- * Describes the operations afforded to Jive Translators.
+ * Translator into Jive.
+ *
+ * Implementations must provide their own Jive mappings.
  */
 public interface JiveTranslator {
     String translate(String text);
