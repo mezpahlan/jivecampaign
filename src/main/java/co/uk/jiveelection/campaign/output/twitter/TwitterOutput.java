@@ -27,7 +27,7 @@ public class TwitterOutput implements Output {
     private void onStatusReceived(Status status) {
         // Extract status as text
         String statusText = status.getText();
-        final List<EntitiesModel> entities = exractEntities(status);
+        final List<EntitiesModel> entities = extractEntities(status);
 
         // Translate the tweet to jive
         String jive = translateStatus(statusText, entities);
@@ -49,7 +49,7 @@ public class TwitterOutput implements Output {
         }
     }
 
-    private List<EntitiesModel> exractEntities(Status status) {
+    private List<EntitiesModel> extractEntities(Status status) {
         // Begin entity extract
         final List<EntitiesModel> entities = new ArrayList<>();
 
