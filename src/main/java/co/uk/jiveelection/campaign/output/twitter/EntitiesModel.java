@@ -1,4 +1,4 @@
-package co.uk.jiveelection.campaign.output.twit;
+package co.uk.jiveelection.campaign.output.twitter;
 
 import com.google.auto.value.AutoValue;
 
