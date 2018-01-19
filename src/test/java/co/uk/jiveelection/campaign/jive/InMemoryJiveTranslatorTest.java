@@ -8,9 +8,9 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Tests for JiveTranslator.
+ * Tests for InMemoryJiveTranslator.
  */
-public class JiveTranslatorTest {
+public class InMemoryJiveTranslatorTest {
 
     private JiveTranslator jiveTranslator;
 
