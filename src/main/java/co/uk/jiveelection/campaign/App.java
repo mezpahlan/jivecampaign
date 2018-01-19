@@ -1,7 +1,7 @@
 package co.uk.jiveelection.campaign;
 
 import co.uk.jiveelection.campaign.jive.memory.InMemoryJiveTranslator;
-import co.uk.jiveelection.campaign.output.twit.TweetHelper;
+import co.uk.jiveelection.campaign.output.twit.TwitterOutput;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import twitter4j.TwitterException;
@@ -19,17 +19,17 @@ public class App {
         SpringApplication.run(App.class, args);
 
         // GE2015
-        TweetHelper jivebotDavidCameron = new TweetHelper("David_Cameron", TwitConfig.DAVID_JIVERON_ACCESS_TOKEN, TwitConfig.DAVID_JIVERON_ACCESS_TOKEN_SECRET, new InMemoryJiveTranslator());
-        TweetHelper jivebotEdMiliband = new TweetHelper("Ed_Miliband", TwitConfig.ED_JIVEABAND_ACCESS_TOKEN, TwitConfig.ED_JIVEABAND_ACCESS_TOKEN_SECRET, new InMemoryJiveTranslator());
-        TweetHelper jivebotNickClegg = new TweetHelper("nick_clegg", TwitConfig.NICK_JIVEGG_ACCESS_TOKEN, TwitConfig.NICK_JIVEGG_ACCESS_TOKEN_SECRET, new InMemoryJiveTranslator());
+        TwitterOutput jivebotDavidCameron = new TwitterOutput("David_Cameron", TwitConfig.DAVID_JIVERON_ACCESS_TOKEN, TwitConfig.DAVID_JIVERON_ACCESS_TOKEN_SECRET, new InMemoryJiveTranslator());
+        TwitterOutput jivebotEdMiliband = new TwitterOutput("Ed_Miliband", TwitConfig.ED_JIVEABAND_ACCESS_TOKEN, TwitConfig.ED_JIVEABAND_ACCESS_TOKEN_SECRET, new InMemoryJiveTranslator());
+        TwitterOutput jivebotNickClegg = new TwitterOutput("nick_clegg", TwitConfig.NICK_JIVEGG_ACCESS_TOKEN, TwitConfig.NICK_JIVEGG_ACCESS_TOKEN_SECRET, new InMemoryJiveTranslator());
 
         // GE2017
-        TweetHelper jivebotTheresaMay = new TweetHelper("theresa_may", TwitConfig.JIVERESA_MAY_ACCESS_TOKEN, TwitConfig.JIVERESA_MAY_ACCESS_TOKEN_SECRET, new InMemoryJiveTranslator());
-        TweetHelper jivebotJeremyCorbyn = new TweetHelper("jeremycorbyn", TwitConfig.JEREMY_JIVEBYN_ACCESS_TOKEN, TwitConfig.JEREMY_JIVEBYN_ACCESS_TOKEN_SECRET, new InMemoryJiveTranslator());
-        TweetHelper jivebotJiveFarron = new TweetHelper("timfarron", TwitConfig.JIVE_FARRON_ACCESS_TOKEN, TwitConfig.JIVE_FARRON_ACCESS_TOKEN_SECRET, new InMemoryJiveTranslator());
-        TweetHelper jivebotJiveolaSturgeon = new TweetHelper("NicolaSturgeon", TwitConfig.JIVEOLA_STURGEON_ACCESS_TOKEN, TwitConfig.JIVEOLA_STURGEON_ACCESS_TOKEN_SECRET, new InMemoryJiveTranslator());
-        TweetHelper jivebotJiveanneWood = new TweetHelper("LeanneWood", TwitConfig.JIVEANNE_WOOD_ACCESS_TOKEN, TwitConfig.JIVEANNE_WOOD_ACCESS_TOKEN_SECRET, new InMemoryJiveTranslator());
-        TweetHelper jivebotJiveolineLucas = new TweetHelper("CarolineLucas", TwitConfig.JIVEOLINE_LUCAS_ACCESS_TOKEN, TwitConfig.JIVEOLINE_LUCAS_ACCESS_TOKEN_SECRET, new InMemoryJiveTranslator());
+        TwitterOutput jivebotTheresaMay = new TwitterOutput("theresa_may", TwitConfig.JIVERESA_MAY_ACCESS_TOKEN, TwitConfig.JIVERESA_MAY_ACCESS_TOKEN_SECRET, new InMemoryJiveTranslator());
+        TwitterOutput jivebotJeremyCorbyn = new TwitterOutput("jeremycorbyn", TwitConfig.JEREMY_JIVEBYN_ACCESS_TOKEN, TwitConfig.JEREMY_JIVEBYN_ACCESS_TOKEN_SECRET, new InMemoryJiveTranslator());
+        TwitterOutput jivebotJiveFarron = new TwitterOutput("timfarron", TwitConfig.JIVE_FARRON_ACCESS_TOKEN, TwitConfig.JIVE_FARRON_ACCESS_TOKEN_SECRET, new InMemoryJiveTranslator());
+        TwitterOutput jivebotJiveolaSturgeon = new TwitterOutput("NicolaSturgeon", TwitConfig.JIVEOLA_STURGEON_ACCESS_TOKEN, TwitConfig.JIVEOLA_STURGEON_ACCESS_TOKEN_SECRET, new InMemoryJiveTranslator());
+        TwitterOutput jivebotJiveanneWood = new TwitterOutput("LeanneWood", TwitConfig.JIVEANNE_WOOD_ACCESS_TOKEN, TwitConfig.JIVEANNE_WOOD_ACCESS_TOKEN_SECRET, new InMemoryJiveTranslator());
+        TwitterOutput jivebotJiveolineLucas = new TwitterOutput("CarolineLucas", TwitConfig.JIVEOLINE_LUCAS_ACCESS_TOKEN, TwitConfig.JIVEOLINE_LUCAS_ACCESS_TOKEN_SECRET, new InMemoryJiveTranslator());
     }
 
 }

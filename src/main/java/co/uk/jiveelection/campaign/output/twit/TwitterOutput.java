@@ -2,6 +2,7 @@ package co.uk.jiveelection.campaign.output.twit;
 
 import co.uk.jiveelection.campaign.TwitConfig;
 import co.uk.jiveelection.campaign.jive.JiveTranslator;
+import co.uk.jiveelection.campaign.output.Output;
 import twitter4j.*;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
@@ -13,13 +14,13 @@ import java.util.List;
 /**
  * Configures a Twitter user to tweet on behalf of.
  */
-public class TweetHelper {
+public class TwitterOutput implements Output {
     private final JiveTranslator jiveTranslator;
     private Twitter twitter;
 
-    public TweetHelper(String realUserName, String jivebotToken, String jivebotTokenSecret, JiveTranslator jiveTranslator) throws TwitterException {
+    public TwitterOutput(String realUserName, String jivebotToken, String jivebotTokenSecret, JiveTranslator jiveTranslator) throws TwitterException {
         this.jiveTranslator = jiveTranslator;
-        // Initialise the TweetHelper
+        // Initialise the TwitterOutput
         init(realUserName, jivebotToken, jivebotTokenSecret);
     }
 
@@ -104,7 +105,7 @@ public class TweetHelper {
     }
 
     /**
-     * Initialises the TweetHelper. Loads the authentication for the Jive Bot.
+     * Initialises the TwitterOutput. Loads the authentication for the Jive Bot.
      *
      * @param jivebotToken
      * @param jivebotTokenSecret
