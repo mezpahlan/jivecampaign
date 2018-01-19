@@ -1,7 +1,7 @@
 package co.uk.jiveelection.campaign;
 
 import co.uk.jiveelection.campaign.jive.memory.InMemoryJiveTranslator;
-import co.uk.jiveelection.campaign.twit.TweetHelper;
+import co.uk.jiveelection.campaign.output.twit.TweetHelper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import twitter4j.TwitterException;

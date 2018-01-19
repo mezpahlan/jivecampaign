@@ -1,4 +1,4 @@
-package co.uk.jiveelection.campaign.twit;
+package co.uk.jiveelection.campaign.output.twit;
 
 import co.uk.jiveelection.campaign.TwitConfig;
 import co.uk.jiveelection.campaign.jive.JiveTranslator;
