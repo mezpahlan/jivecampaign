@@ -18,7 +18,6 @@ public class TwitterOutput implements Output {
     private final JiveTranslator jiveTranslator;
     private Twitter twitter;
 
-    // TODO: Builder
     public TwitterOutput(String realUserName, String jivebotToken, String jivebotTokenSecret, JiveTranslator jiveTranslator) throws TwitterException {
         this.jiveTranslator = jiveTranslator;
         // Initialise the TwitterOutput
