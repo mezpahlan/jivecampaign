@@ -1,4 +1,4 @@
-package co.uk.jiveelection.campaign.jive.web;
+package co.uk.jiveelection.campaign.translator.web;
 
 public class TextHelper {
     

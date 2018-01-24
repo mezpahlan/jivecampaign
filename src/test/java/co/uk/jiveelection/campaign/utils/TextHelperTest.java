@@ -3,7 +3,7 @@
  */
 package co.uk.jiveelection.campaign.utils;
 
-import co.uk.jiveelection.campaign.jive.web.TextHelper;
+import co.uk.jiveelection.campaign.translator.web.TextHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,6 +1,6 @@
 package co.uk.jiveelection.campaign;
 
-import co.uk.jiveelection.campaign.jive.memory.InMemoryJiveTranslator;
+import co.uk.jiveelection.campaign.translator.memory.InMemoryJiveTranslator;
 import co.uk.jiveelection.campaign.output.twitter.TwitterOutput;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,7 +8,7 @@ import twitter4j.TwitterException;
 
 /**
  * Main entry point for the Jive Campaign application. Sets up a continuously running loop that
- * checks the latest tweet from the named candidate, translates it to jive, then tweets it as a
+ * checks the latest tweet from the named candidate, translates it to translator, then tweets it as a
  * jivebot.
  */
 @SpringBootApplication

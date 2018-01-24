@@ -1,7 +1,7 @@
 package co.uk.jiveelection.campaign.output.twitter;
 
 import co.uk.jiveelection.campaign.TwitConfig;
-import co.uk.jiveelection.campaign.jive.JiveTranslator;
+import co.uk.jiveelection.campaign.translator.JiveTranslator;
 import co.uk.jiveelection.campaign.output.Output;
 import twitter4j.*;
 import twitter4j.conf.Configuration;
@@ -29,11 +29,11 @@ public class TwitterOutput implements Output {
         String statusText = status.getText();
         final List<EntitiesModel> entities = extractEntities(status);
 
-        // Translate the tweet to jive
+        // Translate the tweet to translator
         String jive = translateStatus(statusText, entities);
 
         // Tweet, xzibit style
-        // Check if jive is > 280 characters
+        // Check if translator is > 280 characters
         // if yes break into smaller tweet with [1/2], [2,2] suffix
         // if not tweet
         if (jive.length() > 280) {

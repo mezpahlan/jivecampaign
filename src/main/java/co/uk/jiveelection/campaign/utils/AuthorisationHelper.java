@@ -12,12 +12,12 @@ import twitter4j.conf.ConfigurationBuilder;
 public class AuthorisationHelper {
 
     /**
-     * In order to authorise our app for reading and writing to the jive accounts we must first do
+     * In order to authorise our app for reading and writing to the translator accounts we must first do
      * some set up. Twitter requires you to receive an access token that allows reading and writing
      * on behalf on another user. This is what we are going to use and will generate here.
      * <p>
      * To get the access token you first need a temporary request token. Once this is received you
-     * can get authorise the app against the jive accounts. Sign into Twitter with the jive account,
+     * can get authorise the app against the translator accounts. Sign into Twitter with the translator account,
      * follow the url from the console whilst debugging this file, authorise Jive Tweeter. The call
      * back will fail because we haven't set up a website yet. But it will display an oauth_verifier
      * parameter in the address bar of the browser. Copy this and set verifier to this value.
@@ -41,7 +41,7 @@ public class AuthorisationHelper {
         // Set up empty access token.
         AccessToken accessToken = null;
 
-        // Follow the console instructions whilst you are signed into the jive account on Twitter
+        // Follow the console instructions whilst you are signed into the translator account on Twitter
         System.out.println("Open the following URL and grant access to your account:");
         System.out.println(requestToken.getAuthorizationURL());
 

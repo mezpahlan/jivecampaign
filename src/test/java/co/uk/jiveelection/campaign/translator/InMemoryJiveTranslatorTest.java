@@ -1,6 +1,6 @@
-package co.uk.jiveelection.campaign.jive;
+package co.uk.jiveelection.campaign.translator;
 
-import co.uk.jiveelection.campaign.jive.memory.InMemoryJiveTranslator;
+import co.uk.jiveelection.campaign.translator.memory.InMemoryJiveTranslator;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -114,8 +114,8 @@ public class InMemoryJiveTranslatorTest {
 
     @Test
     public void should_translate_jive() {
-        assertThat(jiveTranslator.translate("jive"), is("jibe"));
-        assertThat(jiveTranslator.translate("aaa jive aaa"), is("aaa jibe aaa"));
+        assertThat(jiveTranslator.translate("translator"), is("jibe"));
+        assertThat(jiveTranslator.translate("aaa translator aaa"), is("aaa jibe aaa"));
         assertThat(jiveTranslator.translate("jived"), is("jived"));
     }
 

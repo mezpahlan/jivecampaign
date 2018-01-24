@@ -1,4 +1,4 @@
-package co.uk.jiveelection.campaign.jive.memory;
+package co.uk.jiveelection.campaign.translator.memory;
 
 import java.util.HashMap;
 
@@ -24,7 +24,7 @@ class JiveMappings extends HashMap<String, String> {
         addLeftAtomic("[Ii]talian", "greaser");
         addAtomic("takes", "snatch'd");
         addAtomic("don't", "duzn't");
-        addAtomic("jive", "jibe");
+        addAtomic("translator", "jibe");
         addAtomic("fool", "honkyfool");
         addAtomic("modem", "doodad");
         addMapping("([adet])\\b the", "$1 da damn");

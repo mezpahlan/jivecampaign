@@ -1,6 +1,6 @@
-package co.uk.jiveelection.campaign.jive.memory;
+package co.uk.jiveelection.campaign.translator.memory;
 
-import co.uk.jiveelection.campaign.jive.JiveTranslator;
+import co.uk.jiveelection.campaign.translator.JiveTranslator;
 import co.uk.jiveelection.campaign.utils.RegexMatcherModel;
 import org.springframework.util.StringUtils;
 

@@ -1,6 +1,6 @@
-package co.uk.jiveelection.campaign.jive.web;
+package co.uk.jiveelection.campaign.translator.web;
 
-import co.uk.jiveelection.campaign.jive.JiveTranslator;
+import co.uk.jiveelection.campaign.translator.JiveTranslator;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.web.client.RestTemplate;
 
@@ -17,7 +17,7 @@ public class WebJiveTranslator implements JiveTranslator {
     public String translate(String text) {
         final RestTemplate restTemplate = new RestTemplate();
         final HashMap<String, String> queryMap = new HashMap<>(2);
-        queryMap.put("type", "jive");
+        queryMap.put("type", "translator");
         queryMap.put("input", text);
 
         final String jiveResponse = restTemplate.postForObject(JIVE_ENDPOINT, null, String.class, queryMap);
