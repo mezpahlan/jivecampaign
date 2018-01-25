@@ -149,7 +149,7 @@ class JiveMappings extends HashMap<String, String> {
         addAtomic("(?<!my )boss", "main man");
         addAtomic("wife", "mama");
         addAtomic("money", "bre'd");
-        addMapping("([a-oq-z]):", "$1, dig dis:");
+        addMapping("([a-oq-rt-z]):", "$1, dig dis:");
         addAtomic("amateur", "begina'");
         addAtomic("radio", "transista'");
         addAtomic("(?<!sort |kind )of", "uh'");

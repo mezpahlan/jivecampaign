@@ -1259,7 +1259,7 @@ public class InMemoryJiveTranslatorTest {
         assertThat(jiveTranslator.translate("http:"), is("http:"));
         assertThat(jiveTranslator.translate("q:"), is("q, dig dis:"));
         assertThat(jiveTranslator.translate("r:"), is("r, dig dis:"));
-        assertThat(jiveTranslator.translate("s:"), is("s, dig dis:"));
+        assertThat(jiveTranslator.translate("https:"), is("https:"));
         assertThat(jiveTranslator.translate("t:"), is("t, dig dis:"));
         assertThat(jiveTranslator.translate("u:"), is("u, dig dis:"));
         assertThat(jiveTranslator.translate("v:"), is("v, dig dis:"));
