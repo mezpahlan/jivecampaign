@@ -1,8 +1,8 @@
 package co.uk.jiveelection.campaign.output.twitter;
 
 import co.uk.jiveelection.campaign.TwitConfig;
-import co.uk.jiveelection.campaign.translator.JiveTranslator;
 import co.uk.jiveelection.campaign.output.Output;
+import co.uk.jiveelection.campaign.translator.JiveTranslator;
 import twitter4j.*;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
@@ -15,13 +15,24 @@ import java.util.List;
  * Configures a Twitter user to tweet on behalf of.
  */
 public class TwitterOutput implements Output {
+    private final String realUserName;
     private final JiveTranslator jiveTranslator;
-    private Twitter twitter;
+    private final Twitter twitter;
+    private final TwitterStream twitterStream;
 
-    public TwitterOutput(String realUserName, String jivebotToken, String jivebotTokenSecret, JiveTranslator jiveTranslator) throws TwitterException {
+    public TwitterOutput(String realUserName, JiveTranslator jiveTranslator, String jivebotToken, String jivebotTokenSecret) throws TwitterException {
+        this.realUserName = realUserName;
         this.jiveTranslator = jiveTranslator;
-        // Initialise the TwitterOutput
-        init(realUserName, jivebotToken, jivebotTokenSecret);
+
+        Configuration configuration = new ConfigurationBuilder()
+                .setOAuthConsumerKey(TwitConfig.CONSUMER_TOKEN)
+                .setOAuthConsumerSecret(TwitConfig.CONSUMER_TOKEN_SECRET)
+                .setOAuthAccessToken(jivebotToken)
+                .setOAuthAccessTokenSecret(jivebotTokenSecret)
+                .build();
+
+        twitter = new TwitterFactory(configuration).getInstance();
+        twitterStream = new TwitterStreamFactory(configuration).getInstance();
     }
 
     private void onStatusReceived(Status status) {
@@ -105,21 +116,11 @@ public class TwitterOutput implements Output {
     }
 
     /**
-     * Initialises the TwitterOutput. Loads the authentication for the Jive Bot.
+     * Initialises a filter for the real Twitter user than is to be Jive translated.
      *
-     * @param jivebotToken
-     * @param jivebotTokenSecret
+     * @throws TwitterException
      */
-    private void init(String realUserName, String jivebotToken, String jivebotTokenSecret) throws TwitterException {
-        Configuration configuration = new ConfigurationBuilder()
-                .setOAuthConsumerKey(TwitConfig.CONSUMER_TOKEN)
-                .setOAuthConsumerSecret(TwitConfig.CONSUMER_TOKEN_SECRET)
-                .setOAuthAccessToken(jivebotToken)
-                .setOAuthAccessTokenSecret(jivebotTokenSecret)
-                .build();
-
-        twitter = new TwitterFactory(configuration).getInstance();
-        TwitterStream twitterStream = new TwitterStreamFactory(configuration).getInstance();
+    public void init() throws TwitterException {
         long realId = twitter.showUser(realUserName).getId();
 
         FilterQuery tweetFilterQuery = new FilterQuery();
