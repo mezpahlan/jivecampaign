@@ -37,11 +37,10 @@ public class TwitterOutput implements Output {
 
     private void onStatusReceived(Status status) {
         // Extract status as text
-        String statusText = status.getText();
         final List<EntitiesModel> entities = extractEntities(status);
 
         // Translate the tweet to translator
-        String jive = translateStatus(statusText, entities);
+        final String jive = jiveTranslator.translate(entities);
 
         // Tweet, xzibit style
         // Check if translator is > 280 characters
@@ -60,59 +59,69 @@ public class TwitterOutput implements Output {
         }
     }
 
-    private List<EntitiesModel> extractEntities(Status status) {
+    public List<EntitiesModel> extractEntities(Status status) {
+        // Original status length
+        final String text = status.getText();
+        final int length = text.length();
+
         // Begin entity extract
+        final List<EntitiesModel> verbatimEntities = new ArrayList<>();
         final List<EntitiesModel> entities = new ArrayList<>();
 
         // Get URL Entities
         for (int i = 0; i < status.getURLEntities().length; i++) {
             URLEntity urlEntities = status.getURLEntities()[i];
-            entities.add(EntitiesModel.create(urlEntities.getStart(), urlEntities.getEnd()));
+            final int start = urlEntities.getStart();
+            final int end = urlEntities.getEnd();
+            verbatimEntities.add(EntitiesModel.verbatim(start, end, text.substring(start, end)));
         }
 
         // Get Media Entities
         for (int i = 0; i < status.getMediaEntities().length; i++) {
             MediaEntity mediaEntities = status.getMediaEntities()[i];
-            entities.add(EntitiesModel.create(mediaEntities.getStart(), mediaEntities.getEnd()));
+            final int start = mediaEntities.getStart();
+            final int end = mediaEntities.getEnd();
+            verbatimEntities.add(EntitiesModel.verbatim(start, end, text.substring(start, end)));
         }
 
         // Get UserMentionEntity if they exists
         for (int i = 0; i < status.getUserMentionEntities().length; i++) {
             UserMentionEntity userMentionEntities = status.getUserMentionEntities()[i];
-            entities.add(EntitiesModel.create(userMentionEntities.getStart(), userMentionEntities
-                    .getEnd()));
+            final int start = userMentionEntities.getStart();
+            final int end = userMentionEntities.getEnd();
+            verbatimEntities.add(EntitiesModel.verbatim(start, end, text.substring(start, end)));
         }
 
         // Get HashtagEntity if they exists
         for (int i = 0; i < status.getHashtagEntities().length; i++) {
             HashtagEntity hashTagEntities = status.getHashtagEntities()[i];
-            entities.add(EntitiesModel.create(hashTagEntities.getStart(), hashTagEntities.getEnd()));
+            final int start = hashTagEntities.getStart();
+            final int end = hashTagEntities.getEnd();
+            verbatimEntities.add(EntitiesModel.verbatim(start, end, text.substring(start, end)));
         }
 
-        // Order the List of Entities by start position
+        // Order verbatim entities by start position
+        verbatimEntities.sort(Comparator.comparingInt(EntitiesModel::start));
+
+        // Add translatable entities
+        int position = 0;
+        for (EntitiesModel verbatimEntity : verbatimEntities) {
+            if (verbatimEntity.start() != 0) {
+                entities.add(EntitiesModel.translate(position, verbatimEntity.start(), text.substring(position, verbatimEntity.start())));
+            }
+            entities.add(verbatimEntity);
+            position = verbatimEntity.end();
+        }
+
+        // Collect the rest of the string to translate
+        if (position < length) {
+            entities.add(EntitiesModel.translate(position, length, text.substring(position, length)));
+        }
+
+        // Order all entities by start position
         entities.sort(Comparator.comparingInt(EntitiesModel::start));
 
         return entities;
-    }
-
-    private String translateStatus(String statusText, List<EntitiesModel> entities) {
-        int position = 0;
-        StringBuilder builder = new StringBuilder();
-        for (EntitiesModel entity : entities) {
-            builder.append(jiveTranslator.translate(statusText.substring(position, entity.start())))
-                    .append(" ")
-                    .append(jiveTranslator.translate(statusText.substring(entity.start(), entity.end())))
-                    .append(" ");
-            position = entity.end() + 1;
-        }
-
-        // Here we have no more entities but could still have text to jivelate
-        if (position < statusText.length()) {
-            builder.append(jiveTranslator.translate(statusText.substring(position)));
-        }
-
-        // TODO: encode the spaces in the entities?
-        return builder.toString();
     }
 
     /**

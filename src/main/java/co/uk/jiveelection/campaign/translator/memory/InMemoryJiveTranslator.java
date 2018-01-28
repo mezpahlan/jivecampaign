@@ -1,8 +1,8 @@
 package co.uk.jiveelection.campaign.translator.memory;
 
+import co.uk.jiveelection.campaign.output.twitter.EntitiesModel;
 import co.uk.jiveelection.campaign.translator.JiveTranslator;
 import co.uk.jiveelection.campaign.utils.RegexMatcherModel;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -68,6 +68,22 @@ public class InMemoryJiveTranslator implements JiveTranslator {
             sb.append(text.substring(position[0]));
         }
 
-        return StringUtils.trimTrailingWhitespace(sb.toString());
+        return sb.toString();
+    }
+
+    @Override
+    public String translate(List<EntitiesModel> entities) {
+        final StringBuilder stringBuilder = new StringBuilder();
+
+        for (EntitiesModel entity : entities) {
+            if (entity.translatable()) {
+                final String translate = translate(entity.text());
+                stringBuilder.append(translate);
+            } else {
+                stringBuilder.append(entity.text());
+            }
+        }
+
+        return stringBuilder.toString();
     }
 }
