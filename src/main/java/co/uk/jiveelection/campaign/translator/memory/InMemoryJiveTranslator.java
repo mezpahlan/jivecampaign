@@ -1,8 +1,8 @@
 package co.uk.jiveelection.campaign.translator.memory;
 
+import co.uk.jiveelection.campaign.output.twitter.TranslationEntity;
 import co.uk.jiveelection.campaign.translator.JiveTranslator;
-import co.uk.jiveelection.campaign.utils.RegexMatcherModel;
-import org.springframework.util.StringUtils;
+import co.uk.jiveelection.campaign.utils.RegexEntity;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -23,23 +23,19 @@ public class InMemoryJiveTranslator implements JiveTranslator {
 
     @Override
     public String translate(String text) {
-        final List<RegexMatcherModel> regexMatchers = new ArrayList<>();
+        final List<RegexEntity> regexMatchers = new ArrayList<>();
 
         jiveMappings.forEach((regex, replacement) -> {
             final Pattern pattern = Pattern.compile(regex);
             final Matcher matcher = pattern.matcher(text);
             while (matcher.find()) {
                 final String matchedText = matcher.group();
-                final RegexMatcherModel.Builder builder = RegexMatcherModel.builder()
-                        .setStart(matcher.start())
-                        .setEnd(matcher.end())
-                        .setMatchedText(matchedText)
-                        .setReplacementText(matchedText.replaceFirst(regex, replacement));
-                regexMatchers.add(builder.build());
+                final RegexEntity regexMatcher = RegexEntity.create(matcher.start(), matcher.end(), matchedText, matchedText.replaceFirst(regex, replacement));
+                regexMatchers.add(regexMatcher);
             }
         });
 
-        regexMatchers.sort(Comparator.comparingInt(RegexMatcherModel::start));
+        regexMatchers.sort(Comparator.comparingInt(RegexEntity::start));
 
         final int lengthOfRemovedTexts = regexMatchers
                 .stream()
@@ -56,10 +52,10 @@ public class InMemoryJiveTranslator implements JiveTranslator {
         final StringBuilder sb = new StringBuilder(bufferSize);
         final int[] position = {0};
 
-        regexMatchers.forEach(regexMatcherModel -> {
-            sb.append(text.substring(position[0], regexMatcherModel.start()));
-            sb.append(regexMatcherModel.replacementText());
-            position[0] = regexMatcherModel.end();
+        regexMatchers.forEach(regexEntity -> {
+            sb.append(text.substring(position[0], regexEntity.start()));
+            sb.append(regexEntity.replacementText());
+            position[0] = regexEntity.end();
         });
 
         // It is possible that we have made all of the substitutions that we are expecting but we still have some non
@@ -68,6 +64,22 @@ public class InMemoryJiveTranslator implements JiveTranslator {
             sb.append(text.substring(position[0]));
         }
 
-        return StringUtils.trimTrailingWhitespace(sb.toString());
+        return sb.toString();
+    }
+
+    @Override
+    public String translate(List<TranslationEntity> entities) {
+        final StringBuilder stringBuilder = new StringBuilder();
+
+        for (TranslationEntity entity : entities) {
+            if (entity.translatable()) {
+                final String translate = translate(entity.text());
+                stringBuilder.append(translate);
+            } else {
+                stringBuilder.append(entity.text());
+            }
+        }
+
+        return stringBuilder.toString();
     }
 }

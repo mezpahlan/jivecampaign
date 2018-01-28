@@ -1,8 +1,12 @@
 package co.uk.jiveelection.campaign.translator;
 
+import co.uk.jiveelection.campaign.output.twitter.TranslationEntity;
 import co.uk.jiveelection.campaign.translator.memory.InMemoryJiveTranslator;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -733,6 +737,7 @@ public class InMemoryJiveTranslatorTest {
         assertThat(jiveTranslator.translate("aaa er aaa"), is("aaa a' aaa"));
         assertThat(jiveTranslator.translate("winter"), is("winta'"));
         assertThat(jiveTranslator.translate("error"), is("error"));
+        assertThat(jiveTranslator.translate("better."), is("better. Ah be baaad..."));
     }
 
     @Test
@@ -1526,5 +1531,34 @@ public class InMemoryJiveTranslatorTest {
         assertThat(jiveTranslator.translate("VAX"), is("Pink Cadillac"));
         assertThat(jiveTranslator.translate("aaa VAX aaa"), is("aaa Pink Cadillac aaa"));
         assertThat(jiveTranslator.translate("unVAXny"), is("unVAXny"));
+    }
+
+    @Test
+    public void should_translate_statusWithEntities() {
+        // Given
+        String statusText = "RT @AndrewDunn10 .@CheerfulPodcast is a remarkably fun #podcast. Worth a listen if you're interested in progressive politics and trying to make the world a little better.";
+
+        final TranslationEntity translationEntity0 = TranslationEntity.translate(0,3, "RT ");
+        final TranslationEntity translationEntity1 = TranslationEntity.verbatim(3, 16, "@AndrewDunn10");
+        final TranslationEntity translationEntity2 = TranslationEntity.translate(16, 18, " .");
+        final TranslationEntity translationEntity3 = TranslationEntity.verbatim(18, 34, "@CheerfulPodcast");
+        final TranslationEntity translationEntity4 = TranslationEntity.translate(34, 55, " is a remarkably fun ");
+        final TranslationEntity translationEntity5 = TranslationEntity.verbatim(55, 63, "#podcast");
+        final TranslationEntity translationEntity6 = TranslationEntity.translate(63, 170, ". Worth a listen if you're interested in progressive politics and trying to make the world a little better.");
+        final List<TranslationEntity> entitiesList = new ArrayList<>(3);
+
+        entitiesList.add(translationEntity0);
+        entitiesList.add(translationEntity1);
+        entitiesList.add(translationEntity2);
+        entitiesList.add(translationEntity3);
+        entitiesList.add(translationEntity4);
+        entitiesList.add(translationEntity5);
+        entitiesList.add(translationEntity6);
+
+        // When
+        final String result = jiveTranslator.translate(entitiesList);
+
+        // Then
+        assertThat(result, is("RT @AndrewDunn10 .@CheerfulPodcast be some remarkably fun #podcast. Word some listen if youse interested in progressive politics and tryin' t'make da damn world some little better. Ah be baaad..."));
     }
 }

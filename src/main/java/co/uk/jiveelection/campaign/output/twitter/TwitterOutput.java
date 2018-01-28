@@ -1,8 +1,8 @@
 package co.uk.jiveelection.campaign.output.twitter;
 
 import co.uk.jiveelection.campaign.TwitConfig;
-import co.uk.jiveelection.campaign.translator.JiveTranslator;
 import co.uk.jiveelection.campaign.output.Output;
+import co.uk.jiveelection.campaign.translator.JiveTranslator;
 import twitter4j.*;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
@@ -15,29 +15,43 @@ import java.util.List;
  * Configures a Twitter user to tweet on behalf of.
  */
 public class TwitterOutput implements Output {
-    private final JiveTranslator jiveTranslator;
-    private Twitter twitter;
 
-    public TwitterOutput(String realUserName, String jivebotToken, String jivebotTokenSecret, JiveTranslator jiveTranslator) throws TwitterException {
+    private static final int TWEET_CHARACTER_LIMIT = 280;
+    private static final int TWEET_PAGINATION_INDEX = 265;
+
+    private final String realUserName;
+    private final JiveTranslator jiveTranslator;
+    private final Twitter twitter;
+    private final TwitterStream twitterStream;
+
+    public TwitterOutput(String realUserName, JiveTranslator jiveTranslator, String jivebotToken, String jivebotTokenSecret) {
+        this.realUserName = realUserName;
         this.jiveTranslator = jiveTranslator;
-        // Initialise the TwitterOutput
-        init(realUserName, jivebotToken, jivebotTokenSecret);
+
+        Configuration configuration = new ConfigurationBuilder()
+                .setOAuthConsumerKey(TwitConfig.CONSUMER_TOKEN)
+                .setOAuthConsumerSecret(TwitConfig.CONSUMER_TOKEN_SECRET)
+                .setOAuthAccessToken(jivebotToken)
+                .setOAuthAccessTokenSecret(jivebotTokenSecret)
+                .build();
+
+        twitter = new TwitterFactory(configuration).getInstance();
+        twitterStream = new TwitterStreamFactory(configuration).getInstance();
     }
 
     private void onStatusReceived(Status status) {
         // Extract status as text
-        String statusText = status.getText();
-        final List<EntitiesModel> entities = extractEntities(status);
+        final List<TranslationEntity> entities = extractEntities(status);
 
         // Translate the tweet to translator
-        String jive = translateStatus(statusText, entities);
+        final String jive = jiveTranslator.translate(entities);
 
         // Tweet, xzibit style
-        // Check if translator is > 280 characters
+        // Check if translator is > tweet character limit
         // if yes break into smaller tweet with [1/2], [2,2] suffix
         // if not tweet
-        if (jive.length() > 280) {
-            int i = jive.lastIndexOf(" ", 265);
+        if (jive.length() > TWEET_CHARACTER_LIMIT) {
+            int i = jive.lastIndexOf(" ", TWEET_PAGINATION_INDEX);
 
             String first = jive.substring(0, i) + " [1/2]";
             String second = jive.substring(i + 1) + " [2/2]";
@@ -49,77 +63,77 @@ public class TwitterOutput implements Output {
         }
     }
 
-    private List<EntitiesModel> extractEntities(Status status) {
+    public List<TranslationEntity> extractEntities(Status status) {
+        // Original status length
+        final String text = status.getText();
+        final int length = text.length();
+
         // Begin entity extract
-        final List<EntitiesModel> entities = new ArrayList<>();
+        final List<TranslationEntity> verbatimEntities = new ArrayList<>();
+        final List<TranslationEntity> entities = new ArrayList<>();
 
         // Get URL Entities
         for (int i = 0; i < status.getURLEntities().length; i++) {
             URLEntity urlEntities = status.getURLEntities()[i];
-            entities.add(EntitiesModel.create(urlEntities.getStart(), urlEntities.getEnd()));
+            final int start = urlEntities.getStart();
+            final int end = urlEntities.getEnd();
+            verbatimEntities.add(TranslationEntity.verbatim(start, end, text.substring(start, end)));
         }
 
         // Get Media Entities
         for (int i = 0; i < status.getMediaEntities().length; i++) {
             MediaEntity mediaEntities = status.getMediaEntities()[i];
-            entities.add(EntitiesModel.create(mediaEntities.getStart(), mediaEntities.getEnd()));
+            final int start = mediaEntities.getStart();
+            final int end = mediaEntities.getEnd();
+            verbatimEntities.add(TranslationEntity.verbatim(start, end, text.substring(start, end)));
         }
 
         // Get UserMentionEntity if they exists
         for (int i = 0; i < status.getUserMentionEntities().length; i++) {
             UserMentionEntity userMentionEntities = status.getUserMentionEntities()[i];
-            entities.add(EntitiesModel.create(userMentionEntities.getStart(), userMentionEntities
-                    .getEnd()));
+            final int start = userMentionEntities.getStart();
+            final int end = userMentionEntities.getEnd();
+            verbatimEntities.add(TranslationEntity.verbatim(start, end, text.substring(start, end)));
         }
 
         // Get HashtagEntity if they exists
         for (int i = 0; i < status.getHashtagEntities().length; i++) {
             HashtagEntity hashTagEntities = status.getHashtagEntities()[i];
-            entities.add(EntitiesModel.create(hashTagEntities.getStart(), hashTagEntities.getEnd()));
+            final int start = hashTagEntities.getStart();
+            final int end = hashTagEntities.getEnd();
+            verbatimEntities.add(TranslationEntity.verbatim(start, end, text.substring(start, end)));
         }
 
-        // Order the List of Entities by start position
-        entities.sort(Comparator.comparingInt(EntitiesModel::start));
+        // Order verbatim entities by start position
+        verbatimEntities.sort(Comparator.comparingInt(TranslationEntity::start));
+
+        // Add translatable entities
+        int position = 0;
+        for (TranslationEntity verbatimEntity : verbatimEntities) {
+            if (verbatimEntity.start() != 0) {
+                entities.add(TranslationEntity.translate(position, verbatimEntity.start(), text.substring(position, verbatimEntity.start())));
+            }
+            entities.add(verbatimEntity);
+            position = verbatimEntity.end();
+        }
+
+        // Collect the rest of the string to translate
+        if (position < length) {
+            entities.add(TranslationEntity.translate(position, length, text.substring(position, length)));
+        }
+
+        // Order all entities by start position
+        entities.sort(Comparator.comparingInt(TranslationEntity::start));
 
         return entities;
     }
 
-    private String translateStatus(String statusText, List<EntitiesModel> entities) {
-        int position = 0;
-        StringBuilder builder = new StringBuilder();
-        for (EntitiesModel entity : entities) {
-            builder.append(jiveTranslator.translate(statusText.substring(position, entity.start())))
-                    .append(" ")
-                    .append(jiveTranslator.translate(statusText.substring(entity.start(), entity.end())))
-                    .append(" ");
-            position = entity.end() + 1;
-        }
-
-        // Here we have no more entities but could still have text to jivelate
-        if (position < statusText.length()) {
-            builder.append(jiveTranslator.translate(statusText.substring(position)));
-        }
-
-        // TODO: encode the spaces in the entities?
-        return builder.toString();
-    }
-
     /**
-     * Initialises the TwitterOutput. Loads the authentication for the Jive Bot.
+     * Initialises a filter for the real Twitter user than is to be Jive translated.
      *
-     * @param jivebotToken
-     * @param jivebotTokenSecret
+     * @throws TwitterException
      */
-    private void init(String realUserName, String jivebotToken, String jivebotTokenSecret) throws TwitterException {
-        Configuration configuration = new ConfigurationBuilder()
-                .setOAuthConsumerKey(TwitConfig.CONSUMER_TOKEN)
-                .setOAuthConsumerSecret(TwitConfig.CONSUMER_TOKEN_SECRET)
-                .setOAuthAccessToken(jivebotToken)
-                .setOAuthAccessTokenSecret(jivebotTokenSecret)
-                .build();
-
-        twitter = new TwitterFactory(configuration).getInstance();
-        TwitterStream twitterStream = new TwitterStreamFactory(configuration).getInstance();
+    public void init() throws TwitterException {
         long realId = twitter.showUser(realUserName).getId();
 
         FilterQuery tweetFilterQuery = new FilterQuery();
