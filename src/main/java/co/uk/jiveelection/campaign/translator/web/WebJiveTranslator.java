@@ -1,6 +1,6 @@
 package co.uk.jiveelection.campaign.translator.web;
 
-import co.uk.jiveelection.campaign.output.twitter.EntitiesModel;
+import co.uk.jiveelection.campaign.output.twitter.TranslationEntity;
 import co.uk.jiveelection.campaign.translator.JiveTranslator;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.web.client.RestTemplate;
@@ -30,10 +30,10 @@ public class WebJiveTranslator implements JiveTranslator {
     }
 
     @Override
-    public String translate(List<EntitiesModel> entities) {
+    public String translate(List<TranslationEntity> entities) {
         final StringBuilder stringBuilder = new StringBuilder();
 
-        for (EntitiesModel entity : entities) {
+        for (TranslationEntity entity : entities) {
             if (entity.translatable()) {
                 final String translate = translate(entity.text());
                 stringBuilder.append(translate);

@@ -6,9 +6,9 @@ import com.google.auto.value.AutoValue;
  * Describes information about a regex match to be accessed outside a matcher loop.
  */
 @AutoValue
-public abstract class RegexMatcherModel {
-    public static RegexMatcherModel create(int start, int end, String matchedText, String replacementText) {
-        return new AutoValue_RegexMatcherModel(start, end, matchedText, replacementText);
+public abstract class RegexEntity {
+    public static RegexEntity create(int start, int end, String matchedText, String replacementText) {
+        return new AutoValue_RegexEntity(start, end, matchedText, replacementText);
     }
 
     public abstract int start();

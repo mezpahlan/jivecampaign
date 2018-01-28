@@ -1,6 +1,6 @@
 package co.uk.jiveelection.campaign.translator;
 
-import co.uk.jiveelection.campaign.output.twitter.EntitiesModel;
+import co.uk.jiveelection.campaign.output.twitter.TranslationEntity;
 import co.uk.jiveelection.campaign.translator.memory.InMemoryJiveTranslator;
 import org.junit.Before;
 import org.junit.Test;
@@ -1538,22 +1538,22 @@ public class InMemoryJiveTranslatorTest {
         // Given
         String statusText = "RT @AndrewDunn10 .@CheerfulPodcast is a remarkably fun #podcast. Worth a listen if you're interested in progressive politics and trying to make the world a little better.";
 
-        final EntitiesModel entitiesModel0 = EntitiesModel.translate(0,3, "RT ");
-        final EntitiesModel entitiesModel1 = EntitiesModel.verbatim(3, 16, "@AndrewDunn10");
-        final EntitiesModel entitiesModel2 = EntitiesModel.translate(16, 18, " .");
-        final EntitiesModel entitiesModel3 = EntitiesModel.verbatim(18, 34, "@CheerfulPodcast");
-        final EntitiesModel entitiesModel4 = EntitiesModel.translate(34, 55, " is a remarkably fun ");
-        final EntitiesModel entitiesModel5 = EntitiesModel.verbatim(55, 63, "#podcast");
-        final EntitiesModel entitiesModel6 = EntitiesModel.translate(63, 170, ". Worth a listen if you're interested in progressive politics and trying to make the world a little better.");
-        final List<EntitiesModel> entitiesList = new ArrayList<>(3);
+        final TranslationEntity translationEntity0 = TranslationEntity.translate(0,3, "RT ");
+        final TranslationEntity translationEntity1 = TranslationEntity.verbatim(3, 16, "@AndrewDunn10");
+        final TranslationEntity translationEntity2 = TranslationEntity.translate(16, 18, " .");
+        final TranslationEntity translationEntity3 = TranslationEntity.verbatim(18, 34, "@CheerfulPodcast");
+        final TranslationEntity translationEntity4 = TranslationEntity.translate(34, 55, " is a remarkably fun ");
+        final TranslationEntity translationEntity5 = TranslationEntity.verbatim(55, 63, "#podcast");
+        final TranslationEntity translationEntity6 = TranslationEntity.translate(63, 170, ". Worth a listen if you're interested in progressive politics and trying to make the world a little better.");
+        final List<TranslationEntity> entitiesList = new ArrayList<>(3);
 
-        entitiesList.add(entitiesModel0);
-        entitiesList.add(entitiesModel1);
-        entitiesList.add(entitiesModel2);
-        entitiesList.add(entitiesModel3);
-        entitiesList.add(entitiesModel4);
-        entitiesList.add(entitiesModel5);
-        entitiesList.add(entitiesModel6);
+        entitiesList.add(translationEntity0);
+        entitiesList.add(translationEntity1);
+        entitiesList.add(translationEntity2);
+        entitiesList.add(translationEntity3);
+        entitiesList.add(translationEntity4);
+        entitiesList.add(translationEntity5);
+        entitiesList.add(translationEntity6);
 
         // When
         final String result = jiveTranslator.translate(entitiesList);

@@ -37,7 +37,7 @@ public class TwitterOutput implements Output {
 
     private void onStatusReceived(Status status) {
         // Extract status as text
-        final List<EntitiesModel> entities = extractEntities(status);
+        final List<TranslationEntity> entities = extractEntities(status);
 
         // Translate the tweet to translator
         final String jive = jiveTranslator.translate(entities);
@@ -59,21 +59,21 @@ public class TwitterOutput implements Output {
         }
     }
 
-    public List<EntitiesModel> extractEntities(Status status) {
+    public List<TranslationEntity> extractEntities(Status status) {
         // Original status length
         final String text = status.getText();
         final int length = text.length();
 
         // Begin entity extract
-        final List<EntitiesModel> verbatimEntities = new ArrayList<>();
-        final List<EntitiesModel> entities = new ArrayList<>();
+        final List<TranslationEntity> verbatimEntities = new ArrayList<>();
+        final List<TranslationEntity> entities = new ArrayList<>();
 
         // Get URL Entities
         for (int i = 0; i < status.getURLEntities().length; i++) {
             URLEntity urlEntities = status.getURLEntities()[i];
             final int start = urlEntities.getStart();
             final int end = urlEntities.getEnd();
-            verbatimEntities.add(EntitiesModel.verbatim(start, end, text.substring(start, end)));
+            verbatimEntities.add(TranslationEntity.verbatim(start, end, text.substring(start, end)));
         }
 
         // Get Media Entities
@@ -81,7 +81,7 @@ public class TwitterOutput implements Output {
             MediaEntity mediaEntities = status.getMediaEntities()[i];
             final int start = mediaEntities.getStart();
             final int end = mediaEntities.getEnd();
-            verbatimEntities.add(EntitiesModel.verbatim(start, end, text.substring(start, end)));
+            verbatimEntities.add(TranslationEntity.verbatim(start, end, text.substring(start, end)));
         }
 
         // Get UserMentionEntity if they exists
@@ -89,7 +89,7 @@ public class TwitterOutput implements Output {
             UserMentionEntity userMentionEntities = status.getUserMentionEntities()[i];
             final int start = userMentionEntities.getStart();
             final int end = userMentionEntities.getEnd();
-            verbatimEntities.add(EntitiesModel.verbatim(start, end, text.substring(start, end)));
+            verbatimEntities.add(TranslationEntity.verbatim(start, end, text.substring(start, end)));
         }
 
         // Get HashtagEntity if they exists
@@ -97,17 +97,17 @@ public class TwitterOutput implements Output {
             HashtagEntity hashTagEntities = status.getHashtagEntities()[i];
             final int start = hashTagEntities.getStart();
             final int end = hashTagEntities.getEnd();
-            verbatimEntities.add(EntitiesModel.verbatim(start, end, text.substring(start, end)));
+            verbatimEntities.add(TranslationEntity.verbatim(start, end, text.substring(start, end)));
         }
 
         // Order verbatim entities by start position
-        verbatimEntities.sort(Comparator.comparingInt(EntitiesModel::start));
+        verbatimEntities.sort(Comparator.comparingInt(TranslationEntity::start));
 
         // Add translatable entities
         int position = 0;
-        for (EntitiesModel verbatimEntity : verbatimEntities) {
+        for (TranslationEntity verbatimEntity : verbatimEntities) {
             if (verbatimEntity.start() != 0) {
-                entities.add(EntitiesModel.translate(position, verbatimEntity.start(), text.substring(position, verbatimEntity.start())));
+                entities.add(TranslationEntity.translate(position, verbatimEntity.start(), text.substring(position, verbatimEntity.start())));
             }
             entities.add(verbatimEntity);
             position = verbatimEntity.end();
@@ -115,11 +115,11 @@ public class TwitterOutput implements Output {
 
         // Collect the rest of the string to translate
         if (position < length) {
-            entities.add(EntitiesModel.translate(position, length, text.substring(position, length)));
+            entities.add(TranslationEntity.translate(position, length, text.substring(position, length)));
         }
 
         // Order all entities by start position
-        entities.sort(Comparator.comparingInt(EntitiesModel::start));
+        entities.sort(Comparator.comparingInt(TranslationEntity::start));
 
         return entities;
     }

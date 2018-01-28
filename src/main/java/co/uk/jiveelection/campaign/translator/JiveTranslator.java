@@ -1,6 +1,6 @@
 package co.uk.jiveelection.campaign.translator;
 
-import co.uk.jiveelection.campaign.output.twitter.EntitiesModel;
+import co.uk.jiveelection.campaign.output.twitter.TranslationEntity;
 
 import java.util.List;
 
@@ -12,5 +12,5 @@ import java.util.List;
 public interface JiveTranslator {
     String translate(String text);
 
-    String translate(List<EntitiesModel> entities);
+    String translate(List<TranslationEntity> entities);
 }
