@@ -7,6 +7,10 @@ import com.google.auto.value.AutoValue;
  */
 @AutoValue
 public abstract class RegexMatcherModel {
+    public static RegexMatcherModel create(int start, int end, String matchedText, String replacementText) {
+        return new AutoValue_RegexMatcherModel(start, end, matchedText, replacementText);
+    }
+
     public abstract int start();
 
     public abstract int end();
@@ -14,21 +18,4 @@ public abstract class RegexMatcherModel {
     public abstract String matchedText();
 
     public abstract String replacementText();
-
-    public static Builder builder() {
-        return new AutoValue_RegexMatcherModel.Builder();
-    }
-
-    @AutoValue.Builder
-    public abstract static class Builder {
-        public abstract Builder setStart(int value);
-
-        public abstract Builder setEnd(int value);
-
-        public abstract Builder setMatchedText(String value);
-
-        public abstract Builder setReplacementText(String value);
-
-        public abstract RegexMatcherModel build();
-    }
 }

@@ -30,12 +30,8 @@ public class InMemoryJiveTranslator implements JiveTranslator {
             final Matcher matcher = pattern.matcher(text);
             while (matcher.find()) {
                 final String matchedText = matcher.group();
-                final RegexMatcherModel.Builder builder = RegexMatcherModel.builder()
-                        .setStart(matcher.start())
-                        .setEnd(matcher.end())
-                        .setMatchedText(matchedText)
-                        .setReplacementText(matchedText.replaceFirst(regex, replacement));
-                regexMatchers.add(builder.build());
+                final RegexMatcherModel regexMatcher = RegexMatcherModel.create(matcher.start(), matcher.end(), matchedText, matchedText.replaceFirst(regex, replacement));
+                regexMatchers.add(regexMatcher);
             }
         });
 
