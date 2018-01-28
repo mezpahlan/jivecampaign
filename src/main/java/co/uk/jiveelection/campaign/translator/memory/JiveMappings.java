@@ -98,7 +98,7 @@ class JiveMappings extends HashMap<String, String> {
         addAtomic("from", "fum");
         addAtomic("([Yy])ou're", "$1ouse");
         addAtomic("alright|okay", "coo'");
-        addRightAtomic("(?<!writ|ov|prime minist|comput|nigg|p|wat)er", "a'");
+        addRightAtomic("(?<!writ|ov|prime minist|comput|nigg|p|wat)er(?!\\.)", "a'");
         addAtomic("known", "knode");
         addAtomic("want(?!s)(?! to)", "wants'");
         addAtomic("beat", "whup'");
