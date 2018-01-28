@@ -20,7 +20,7 @@ public class TwitterOutput implements Output {
     private final Twitter twitter;
     private final TwitterStream twitterStream;
 
-    public TwitterOutput(String realUserName, JiveTranslator jiveTranslator, String jivebotToken, String jivebotTokenSecret) throws TwitterException {
+    public TwitterOutput(String realUserName, JiveTranslator jiveTranslator, String jivebotToken, String jivebotTokenSecret) {
         this.realUserName = realUserName;
         this.jiveTranslator = jiveTranslator;
 
