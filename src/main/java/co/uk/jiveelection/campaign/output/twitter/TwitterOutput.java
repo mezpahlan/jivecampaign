@@ -15,6 +15,10 @@ import java.util.List;
  * Configures a Twitter user to tweet on behalf of.
  */
 public class TwitterOutput implements Output {
+
+    private static final int TWEET_CHARACTER_LIMIT = 280;
+    private static final int TWEET_PAGINATION_INDEX = 265;
+
     private final String realUserName;
     private final JiveTranslator jiveTranslator;
     private final Twitter twitter;
@@ -43,11 +47,11 @@ public class TwitterOutput implements Output {
         final String jive = jiveTranslator.translate(entities);
 
         // Tweet, xzibit style
-        // Check if translator is > 280 characters
+        // Check if translator is > tweet character limit
         // if yes break into smaller tweet with [1/2], [2,2] suffix
         // if not tweet
-        if (jive.length() > 280) {
-            int i = jive.lastIndexOf(" ", 265);
+        if (jive.length() > TWEET_CHARACTER_LIMIT) {
+            int i = jive.lastIndexOf(" ", TWEET_PAGINATION_INDEX);
 
             String first = jive.substring(0, i) + " [1/2]";
             String second = jive.substring(i + 1) + " [2/2]";
