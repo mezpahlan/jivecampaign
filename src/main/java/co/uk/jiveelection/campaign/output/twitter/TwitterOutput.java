@@ -131,7 +131,7 @@ public class TwitterOutput implements Output {
     /**
      * Initialises a filter for the real Twitter user than is to be Jive translated.
      *
-     * @throws TwitterException
+     * @throws TwitterException when Twitter service or network is unavailable
      */
     public void init() throws TwitterException {
         long realId = twitter.showUser(realUserName).getId();
@@ -180,7 +180,7 @@ public class TwitterOutput implements Output {
     @Override
     public void outputJive(String jive) {
         try {
-            Status status = twitter.updateStatus(jive);
+            twitter.updateStatus(jive);
         } catch (TwitterException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
