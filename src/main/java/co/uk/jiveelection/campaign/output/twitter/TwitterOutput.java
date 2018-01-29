@@ -148,7 +148,9 @@ public class TwitterOutput implements Output {
             @Override
             public void onStatus(Status status) {
                 if (status.getUser().getId() == realId) {
-                    onStatusReceived(status);
+                    if (!status.isRetweet()) {
+                        onStatusReceived(status);
+                    }
                 }
             }
 
