@@ -1,5 +1,6 @@
 package co.uk.jiveelection.campaign.translator.memory;
 
+import co.uk.jiveelection.campaign.jive.Jive;
 import co.uk.jiveelection.campaign.output.twitter.TranslationEntity;
 import co.uk.jiveelection.campaign.translator.JiveTranslator;
 import co.uk.jiveelection.campaign.utils.RegexEntity;
@@ -16,13 +17,30 @@ import java.util.regex.Pattern;
 public class InMemoryJiveTranslator implements JiveTranslator {
 
     private final JiveMappings jiveMappings;
+    private final Jive jiveBot;
 
-    public InMemoryJiveTranslator() {
+    public InMemoryJiveTranslator(Jive jiveBot) {
+        this.jiveBot = jiveBot;
         jiveMappings = JiveMappings.getInstance();
     }
 
     @Override
-    public String translate(String text) {
+    public void translate(List<TranslationEntity> entities) {
+        final StringBuilder stringBuilder = new StringBuilder();
+
+        for (TranslationEntity entity : entities) {
+            if (entity.translatable()) {
+                final String translate = processString(entity.text());
+                stringBuilder.append(translate);
+            } else {
+                stringBuilder.append(entity.text());
+            }
+        }
+
+        jiveBot.onTranslationComplete(stringBuilder.toString());
+    }
+
+    private String processString(String text) {
         final List<RegexEntity> regexMatchers = new ArrayList<>();
 
         jiveMappings.forEach((regex, replacement) -> {
@@ -65,21 +83,5 @@ public class InMemoryJiveTranslator implements JiveTranslator {
         }
 
         return sb.toString();
-    }
-
-    @Override
-    public String translate(List<TranslationEntity> entities) {
-        final StringBuilder stringBuilder = new StringBuilder();
-
-        for (TranslationEntity entity : entities) {
-            if (entity.translatable()) {
-                final String translate = translate(entity.text());
-                stringBuilder.append(translate);
-            } else {
-                stringBuilder.append(entity.text());
-            }
-        }
-
-        return stringBuilder.toString();
     }
 }
