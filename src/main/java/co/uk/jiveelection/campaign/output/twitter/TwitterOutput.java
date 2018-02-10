@@ -19,7 +19,7 @@ public class TwitterOutput implements Output<Status> {
     private static final int TWEET_PAGINATION_INDEX = 265;
 
     private final Jive jiveBot;
-    private final Twitter twitter;
+    private final Twitter twitterOutput;
 
     public TwitterOutput(Jive jiveBot, String jivebotToken, String jivebotTokenSecret) {
         this.jiveBot = jiveBot;
@@ -31,7 +31,12 @@ public class TwitterOutput implements Output<Status> {
                 .setOAuthAccessTokenSecret(jivebotTokenSecret)
                 .build();
 
-        twitter = new TwitterFactory(configuration).getInstance();
+        twitterOutput = new TwitterFactory(configuration).getInstance();
+    }
+
+    public TwitterOutput(Jive jiveBot, Twitter twitterOutput) {
+        this.jiveBot = jiveBot;
+        this.twitterOutput = twitterOutput;
     }
 
     @Override
@@ -62,7 +67,7 @@ public class TwitterOutput implements Output<Status> {
         Status status = null;
 
         try {
-            status = twitter.updateStatus(jive);
+            status = twitterOutput.updateStatus(jive);
         } catch (TwitterException e) {
             e.printStackTrace();
             System.out.println(jive);
