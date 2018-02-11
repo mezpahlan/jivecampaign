@@ -1,14 +1,10 @@
 package co.uk.jiveelection.campaign.output.twitter;
 
-import co.uk.jiveelection.campaign.TwitConfig;
 import co.uk.jiveelection.campaign.jive.Jive;
 import co.uk.jiveelection.campaign.output.Output;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
-import twitter4j.conf.Configuration;
-import twitter4j.conf.ConfigurationBuilder;
 
 /**
  * Configures a Twitter user to tweet on behalf of.
@@ -21,22 +17,15 @@ public class TwitterOutput implements Output<Status> {
     private final Jive jiveBot;
     private final Twitter twitterOutput;
 
-    public TwitterOutput(Jive jiveBot, String jivebotToken, String jivebotTokenSecret) {
+    /**
+     * Constructs a new TwitterOutput.
+     *
+     * @param jiveBot Jive: The Jive bot to attach to
+     * @param twitter Twitter: Used to tweet statuses
+     */
+    public TwitterOutput(Jive jiveBot, Twitter twitter) {
         this.jiveBot = jiveBot;
-
-        Configuration configuration = new ConfigurationBuilder()
-                .setOAuthConsumerKey(TwitConfig.CONSUMER_TOKEN)
-                .setOAuthConsumerSecret(TwitConfig.CONSUMER_TOKEN_SECRET)
-                .setOAuthAccessToken(jivebotToken)
-                .setOAuthAccessTokenSecret(jivebotTokenSecret)
-                .build();
-
-        twitterOutput = new TwitterFactory(configuration).getInstance();
-    }
-
-    public TwitterOutput(Jive jiveBot, Twitter twitterOutput) {
-        this.jiveBot = jiveBot;
-        this.twitterOutput = twitterOutput;
+        this.twitterOutput = twitter;
     }
 
     @Override
@@ -48,11 +37,13 @@ public class TwitterOutput implements Output<Status> {
         if (jive.length() > TWEET_CHARACTER_LIMIT) {
             int i = jive.lastIndexOf(" ", TWEET_PAGINATION_INDEX);
 
-            String first = jive.substring(0, i) + " [1/2]";
-            String second = jive.substring(i + 1) + " [2/2]";
+            if (i != -1) {
+                String first = jive.substring(0, i) + " [1/2]";
+                String second = jive.substring(i + 1) + " [2/2]";
 
-            onOutputComplete(tweet(first));
-            onOutputComplete(tweet(second));
+                onOutputComplete(tweet(first));
+                onOutputComplete(tweet(second));
+            }
         } else {
             onOutputComplete(tweet(jive));
         }

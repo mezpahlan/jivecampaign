@@ -5,13 +5,25 @@ import co.uk.jiveelection.campaign.input.twitter.TwitterInput;
 import co.uk.jiveelection.campaign.jive.Jive;
 import co.uk.jiveelection.campaign.output.twitter.TwitterOutput;
 import co.uk.jiveelection.campaign.translator.memory.InMemoryJiveTranslator;
-import twitter4j.TwitterException;
+import twitter4j.*;
+import twitter4j.conf.Configuration;
+import twitter4j.conf.ConfigurationBuilder;
 
 public class FarronJive extends Jive<TwitterInput, TwitterOutput, InMemoryJiveTranslator> {
 
     public FarronJive() {
-        input = new TwitterInput(this, "timfarron", TwitConfig.JIVE_FARRON_ACCESS_TOKEN, TwitConfig.JIVE_FARRON_ACCESS_TOKEN_SECRET);
-        output = new TwitterOutput(this, TwitConfig.JIVE_FARRON_ACCESS_TOKEN, TwitConfig.JIVE_FARRON_ACCESS_TOKEN_SECRET);
+        final Configuration configuration = new ConfigurationBuilder()
+                .setOAuthConsumerKey(TwitConfig.CONSUMER_TOKEN)
+                .setOAuthConsumerSecret(TwitConfig.CONSUMER_TOKEN_SECRET)
+                .setOAuthAccessToken(TwitConfig.JIVE_FARRON_ACCESS_TOKEN)
+                .setOAuthAccessTokenSecret(TwitConfig.JIVE_FARRON_ACCESS_TOKEN_SECRET)
+                .build();
+
+        final Twitter jiveFarronTwitter = new TwitterFactory(configuration).getInstance();
+        final TwitterStream jiveFarronTwitterStream = new TwitterStreamFactory(configuration).getInstance();
+
+        input = new TwitterInput(this, "timfarron", jiveFarronTwitter, jiveFarronTwitterStream);
+        output = new TwitterOutput(this, jiveFarronTwitter);
         translator = new InMemoryJiveTranslator(this);
     }
 

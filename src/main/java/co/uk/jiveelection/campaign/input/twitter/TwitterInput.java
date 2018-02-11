@@ -1,12 +1,9 @@
 package co.uk.jiveelection.campaign.input.twitter;
 
-import co.uk.jiveelection.campaign.TwitConfig;
 import co.uk.jiveelection.campaign.input.Input;
 import co.uk.jiveelection.campaign.jive.Jive;
 import co.uk.jiveelection.campaign.output.twitter.TranslationEntity;
 import twitter4j.*;
-import twitter4j.conf.Configuration;
-import twitter4j.conf.ConfigurationBuilder;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -24,19 +21,19 @@ public class TwitterInput implements Input<Status> {
     private final Twitter twitter;
     private final TwitterStream twitterStream;
 
-    public TwitterInput(Jive jiveBot, String realUserName, String jivebotToken, String jivebotTokenSecret) {
+    /**
+     * Constructs a new TwitterInput.
+     *
+     * @param jiveBot       Jive: The Jive bot to attach to
+     * @param realUserName  String: The real username to follow
+     * @param twitter       Twitter: Used to retrieve the real user id
+     * @param twitterStream TwitterStream: Used to listen to tweets from the real user
+     */
+    public TwitterInput(Jive jiveBot, String realUserName, Twitter twitter, TwitterStream twitterStream) {
         this.jiveBot = jiveBot;
         this.realUserName = realUserName;
-
-        Configuration configuration = new ConfigurationBuilder()
-                .setOAuthConsumerKey(TwitConfig.CONSUMER_TOKEN)
-                .setOAuthConsumerSecret(TwitConfig.CONSUMER_TOKEN_SECRET)
-                .setOAuthAccessToken(jivebotToken)
-                .setOAuthAccessTokenSecret(jivebotTokenSecret)
-                .build();
-
-        twitter = new TwitterFactory(configuration).getInstance();
-        twitterStream = new TwitterStreamFactory(configuration).getInstance();
+        this.twitter = twitter;
+        this.twitterStream = twitterStream;
     }
 
     public void init() throws TwitterException {

@@ -5,13 +5,25 @@ import co.uk.jiveelection.campaign.input.twitter.TwitterInput;
 import co.uk.jiveelection.campaign.jive.Jive;
 import co.uk.jiveelection.campaign.output.twitter.TwitterOutput;
 import co.uk.jiveelection.campaign.translator.memory.InMemoryJiveTranslator;
-import twitter4j.TwitterException;
+import twitter4j.*;
+import twitter4j.conf.Configuration;
+import twitter4j.conf.ConfigurationBuilder;
 
 public class WoodJive extends Jive<TwitterInput, TwitterOutput, InMemoryJiveTranslator> {
 
     public WoodJive() {
-        input = new TwitterInput(this, "LeanneWood", TwitConfig.JIVEANNE_WOOD_ACCESS_TOKEN, TwitConfig.JIVEANNE_WOOD_ACCESS_TOKEN_SECRET);
-        output = new TwitterOutput(this, TwitConfig.JIVEANNE_WOOD_ACCESS_TOKEN, TwitConfig.JIVEANNE_WOOD_ACCESS_TOKEN_SECRET);
+        final Configuration configuration = new ConfigurationBuilder()
+                .setOAuthConsumerKey(TwitConfig.CONSUMER_TOKEN)
+                .setOAuthConsumerSecret(TwitConfig.CONSUMER_TOKEN_SECRET)
+                .setOAuthAccessToken(TwitConfig.JIVEANNE_WOOD_ACCESS_TOKEN)
+                .setOAuthAccessTokenSecret(TwitConfig.JIVEANNE_WOOD_ACCESS_TOKEN_SECRET)
+                .build();
+
+        final Twitter jiveWoodTwitter = new TwitterFactory(configuration).getInstance();
+        final TwitterStream jiveWoodTwitterStream = new TwitterStreamFactory(configuration).getInstance();
+
+        input = new TwitterInput(this, "LeanneWood", jiveWoodTwitter, jiveWoodTwitterStream);
+        output = new TwitterOutput(this, jiveWoodTwitter);
         translator = new InMemoryJiveTranslator(this);
     }
 
