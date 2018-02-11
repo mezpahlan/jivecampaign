@@ -18,7 +18,7 @@ apply plugin: 'org.springframework.boot'
 
 jar {
     baseName = 'jivecampaign'
-    version = '0.4.1'
+    version = '0.5.0'
 }
 
 repositories {
