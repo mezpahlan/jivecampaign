@@ -10,5 +10,5 @@ Runs as a Spring Boot application
 
 1. Download and install the `cf` command line tool
 2. Log into CF
-3. `./gradlew clean buildJar`
+3. `./gradlew clean bootJar`
 4. `cf push jivecampaign -p build/libs/jivecampaign-x.y.z.jar`
