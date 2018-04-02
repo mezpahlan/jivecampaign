@@ -3,6 +3,8 @@ package co.uk.jiveelection.campaign.input.twitter;
 import co.uk.jiveelection.campaign.input.Input;
 import co.uk.jiveelection.campaign.jive.Jive;
 import co.uk.jiveelection.campaign.output.twitter.TranslationEntity;
+import com.google.auto.factory.AutoFactory;
+import com.google.auto.factory.Provided;
 import twitter4j.*;
 
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ import java.util.List;
  * <p>
  * Does not follow retweets.
  */
+@AutoFactory
 public class TwitterInput implements Input<Status> {
 
     private final Jive jiveBot;
@@ -29,7 +32,7 @@ public class TwitterInput implements Input<Status> {
      * @param twitter       Twitter: Used to retrieve the real user id
      * @param twitterStream TwitterStream: Used to listen to tweets from the real user
      */
-    public TwitterInput(Jive jiveBot, String realUserName, Twitter twitter, TwitterStream twitterStream) {
+    public TwitterInput(Jive jiveBot, @Provided String realUserName, @Provided Twitter twitter, @Provided TwitterStream twitterStream) {
         this.jiveBot = jiveBot;
         this.realUserName = realUserName;
         this.twitter = twitter;

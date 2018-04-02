@@ -4,6 +4,7 @@ import co.uk.jiveelection.campaign.jive.Jive;
 import co.uk.jiveelection.campaign.output.twitter.TranslationEntity;
 import co.uk.jiveelection.campaign.translator.JiveTranslator;
 import co.uk.jiveelection.campaign.utils.RegexEntity;
+import com.google.auto.factory.AutoFactory;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -14,6 +15,7 @@ import java.util.regex.Pattern;
 /**
  * Implements an in memory JiveTranslator.
  */
+@AutoFactory
 public class InMemoryJiveTranslator implements JiveTranslator {
 
     private final JiveMappings jiveMappings;

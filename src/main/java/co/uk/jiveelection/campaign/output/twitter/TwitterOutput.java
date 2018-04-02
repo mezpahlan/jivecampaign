@@ -2,6 +2,8 @@ package co.uk.jiveelection.campaign.output.twitter;
 
 import co.uk.jiveelection.campaign.jive.Jive;
 import co.uk.jiveelection.campaign.output.Output;
+import com.google.auto.factory.AutoFactory;
+import com.google.auto.factory.Provided;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -9,6 +11,7 @@ import twitter4j.TwitterException;
 /**
  * Configures a Twitter user to tweet on behalf of.
  */
+@AutoFactory
 public class TwitterOutput implements Output<Status> {
 
     private static final int TWEET_CHARACTER_LIMIT = 280;
@@ -23,7 +26,7 @@ public class TwitterOutput implements Output<Status> {
      * @param jiveBot Jive: The Jive bot to attach to
      * @param twitter Twitter: Used to tweet statuses
      */
-    public TwitterOutput(Jive jiveBot, Twitter twitter) {
+    public TwitterOutput(Jive jiveBot, @Provided Twitter twitter) {
         this.jiveBot = jiveBot;
         this.twitterOutput = twitter;
     }

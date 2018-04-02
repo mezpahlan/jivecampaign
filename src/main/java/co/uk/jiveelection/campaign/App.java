@@ -1,5 +1,7 @@
 package co.uk.jiveelection.campaign;
 
+import co.uk.jiveelection.campaign.injection.DaggerJiveCampaign;
+import co.uk.jiveelection.campaign.injection.JiveCampaign;
 import co.uk.jiveelection.campaign.jive.ge2015.CameronJive;
 import co.uk.jiveelection.campaign.jive.ge2015.CleggJive;
 import co.uk.jiveelection.campaign.jive.ge2015.MilibandJive;
@@ -19,34 +21,35 @@ public class App {
     public static void main(String[] args) throws TwitterException {
 
         SpringApplication.run(App.class, args);
+        final JiveCampaign jiveCampaign = DaggerJiveCampaign.create();
 
         // GE2015
-        final CameronJive cameronJive = new CameronJive();
+        final CameronJive cameronJive = jiveCampaign.cameron();
         cameronJive.init();
 
-        final MilibandJive milibandJive = new MilibandJive();
+        final MilibandJive milibandJive = jiveCampaign.miliband();
         milibandJive.init();
 
-        final CleggJive cleggJive = new CleggJive();
+        final CleggJive cleggJive = jiveCampaign.clegg();
         cleggJive.init();
 
         // GE2017
-        final MayJive mayJive = new MayJive();
+        final MayJive mayJive = jiveCampaign.may();
         mayJive.init();
 
-        final CorbynJive corbynJive = new CorbynJive();
+        final CorbynJive corbynJive = jiveCampaign.corbyn();
         corbynJive.init();
 
-        final FarronJive farronJive = new FarronJive();
+        final FarronJive farronJive = jiveCampaign.farron();
         farronJive.init();
 
-        final SturgeonJive sturgeonJive = new SturgeonJive();
+        final SturgeonJive sturgeonJive = jiveCampaign.sturgeon();
         sturgeonJive.init();
 
-        final WoodJive woodJive = new WoodJive();
+        final WoodJive woodJive = jiveCampaign.wood();
         woodJive.init();
 
-        final LucasJive lucasJive = new LucasJive();
+        final LucasJive lucasJive = jiveCampaign.lucas();
         lucasJive.init();
     }
 
