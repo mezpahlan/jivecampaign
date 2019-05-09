@@ -6,7 +6,7 @@ import twitter4j.TwitterFactory
 import twitter4j.auth.AccessToken
 import twitter4j.conf.ConfigurationBuilder
 
-object AuthorisationHelper {
+class AuthorisationHelper {
 
     /**
      * In order to authorise our app for reading and writing to the translator accounts we must first do
@@ -26,7 +26,6 @@ object AuthorisationHelper {
      * this code is not idempotent.
      */
     @Throws(TwitterException::class)
-    @JvmStatic
     fun main(args: Array<String>) {
         val configuration = ConfigurationBuilder()
                 .setOAuthConsumerKey(TwitConfig.CONSUMER_TOKEN)

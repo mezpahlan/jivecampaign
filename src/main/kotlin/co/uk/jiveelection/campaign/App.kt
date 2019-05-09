@@ -1,8 +1,8 @@
 package co.uk.jiveelection.campaign
 
 import co.uk.jiveelection.campaign.injection.DaggerJiveCampaign
-import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
 import twitter4j.TwitterException
 
 /**
@@ -11,42 +11,41 @@ import twitter4j.TwitterException
  * jivebot.
  */
 @SpringBootApplication
-object App {
+class App
 
-    @Throws(TwitterException::class)
-    @JvmStatic
-    fun main(args: Array<String>) {
+@Throws(TwitterException::class)
+fun main(args: Array<String>) {
 
-        SpringApplication.run(App::class.java, *args)
-        val jiveCampaign = DaggerJiveCampaign.builder().build()
+    runApplication<App>(*args)
 
-        // GE2015
-        val cameronJive = jiveCampaign.cameron()
-        cameronJive.init()
+    val jiveCampaign = DaggerJiveCampaign.builder().build()
 
-        val milibandJive = jiveCampaign.miliband()
-        milibandJive.init()
+    // GE2015
+    val cameronJive = jiveCampaign.cameron()
+    cameronJive.init()
 
-        val cleggJive = jiveCampaign.clegg()
-        cleggJive.init()
+    val milibandJive = jiveCampaign.miliband()
+    milibandJive.init()
 
-        // GE2017
-        val mayJive = jiveCampaign.may()
-        mayJive.init()
+    val cleggJive = jiveCampaign.clegg()
+    cleggJive.init()
 
-        val corbynJive = jiveCampaign.corbyn()
-        corbynJive.init()
+    // GE2017
+    val mayJive = jiveCampaign.may()
+    mayJive.init()
 
-        val farronJive = jiveCampaign.farron()
-        farronJive.init()
+    val corbynJive = jiveCampaign.corbyn()
+    corbynJive.init()
 
-        val sturgeonJive = jiveCampaign.sturgeon()
-        sturgeonJive.init()
+    val farronJive = jiveCampaign.farron()
+    farronJive.init()
 
-        val woodJive = jiveCampaign.wood()
-        woodJive.init()
+    val sturgeonJive = jiveCampaign.sturgeon()
+    sturgeonJive.init()
 
-        val lucasJive = jiveCampaign.lucas()
-        lucasJive.init()
-    }
+    val woodJive = jiveCampaign.wood()
+    woodJive.init()
+
+    val lucasJive = jiveCampaign.lucas()
+    lucasJive.init()
 }

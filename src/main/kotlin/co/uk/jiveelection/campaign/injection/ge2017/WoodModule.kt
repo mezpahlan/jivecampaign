@@ -1,10 +1,10 @@
 package co.uk.jiveelection.campaign.injection.ge2017
 
 import co.uk.jiveelection.campaign.TwitConfig
-import co.uk.jiveelection.campaign.injection.translator.TranslatorModule
 import co.uk.jiveelection.campaign.input.twitter.TwitterInputFactory
 import co.uk.jiveelection.campaign.jive.ge2017.WoodJive
 import co.uk.jiveelection.campaign.output.twitter.TwitterOutputFactory
+import co.uk.jiveelection.campaign.translator.memory.InMemoryJiveTranslatorFactory
 import dagger.Module
 import dagger.Provides
 import twitter4j.Twitter
@@ -17,12 +17,12 @@ import javax.inject.Provider
 import javax.inject.Singleton
 
 @Module
-object WoodModule {
+class WoodModule {
 
     @Provides
     @Singleton
-    fun provideJive(): WoodJive {
-        return WoodJive(providesInputFactory(), providesOutputFactory(), TranslatorModule.providesInMemoryJiveTranslatorFactory())
+    fun provideJive(inMemoryJiveTranslatorFactory: InMemoryJiveTranslatorFactory): WoodJive {
+        return WoodJive(providesInputFactory(), providesOutputFactory(), inMemoryJiveTranslatorFactory)
     }
 
     @Provides

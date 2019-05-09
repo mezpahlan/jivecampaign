@@ -1,10 +1,10 @@
 package co.uk.jiveelection.campaign.injection.ge2017
 
 import co.uk.jiveelection.campaign.TwitConfig
-import co.uk.jiveelection.campaign.injection.translator.TranslatorModule
 import co.uk.jiveelection.campaign.input.twitter.TwitterInputFactory
 import co.uk.jiveelection.campaign.jive.ge2017.MayJive
 import co.uk.jiveelection.campaign.output.twitter.TwitterOutputFactory
+import co.uk.jiveelection.campaign.translator.memory.InMemoryJiveTranslatorFactory
 import dagger.Module
 import dagger.Provides
 import twitter4j.Twitter
@@ -14,16 +14,15 @@ import twitter4j.TwitterStreamFactory
 import twitter4j.conf.Configuration
 import twitter4j.conf.ConfigurationBuilder
 import javax.inject.Provider
-
 import javax.inject.Singleton
 
 @Module
-object MayModule {
+class MayModule {
 
     @Provides
     @Singleton
-    fun provideJive(): MayJive {
-        return MayJive(providesInputFactory(), providesOutputFactory(), TranslatorModule.providesInMemoryJiveTranslatorFactory())
+    fun provideJive(inMemoryJiveTranslatorFactory: InMemoryJiveTranslatorFactory): MayJive {
+        return MayJive(providesInputFactory(), providesOutputFactory(), inMemoryJiveTranslatorFactory)
     }
 
     @Provides
