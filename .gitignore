@@ -46,6 +46,7 @@ hs_err_pid*
 
 # Twit configuration
 /src/main/java/co/uk/jiveelection/campaign/TwitConfig.java
+/src/main/kotlin/co/uk/jiveelection/campaign/TwitConfig.kt
 
 ### Gradle ###
 .gradle
